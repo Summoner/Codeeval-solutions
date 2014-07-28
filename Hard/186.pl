@@ -15,7 +15,7 @@ my @list = ();
 while(<$input>){
 	
 	chomp;
-	push @list,[split /\s+\|\s+/,$_];
+	push @list,[split //,$_];
 	
 }
 close $input;
