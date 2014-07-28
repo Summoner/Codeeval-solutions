@@ -9,18 +9,33 @@ my $t0 = new Benchmark;
 
 open my $input, "D:\\Perl\\input.txt" || die "Can't open file: $!\n";
 # open my $result, ">D:\\Perl\\output1.txt" || die "Can't open file: $!\n";
-
+# 5
+# 10
+# 25
+# 3
+# 0
+# 1
 
 my @list = ();
 while(<$input>){
 	
 	chomp;
-	push @list,[split //,$_];
+	push @list,$_;
 	
 }
 close $input;
 
-print double_square(25);
+
+my $test_cases = shift @list;
+
+foreach(@list){
+	
+	print double_square($_),"\n";
+	
+	
+	}
+
+
 
 sub double_square{
 	
