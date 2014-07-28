@@ -1,4 +1,4 @@
-#!/usr/bin/perl -d
+#!/usr/bin/perl -w
 use strict;
 use warnings;
 use Data::Dumper; 
@@ -20,7 +20,25 @@ while(<$input>){
 }
 close $input;
 
+print double_square(25);
 
+sub double_square{
+	
+	my $M = shift;	
+	my $p = int sqrt($M/2);
+	my $total = 0;
+	
+	for(my $i = 0; $i <= $p; $i++){
+		
+		my $j = sqrt($M - $i * $i);
+		
+		$total++ if ($j - int $j == 0);
+		
+	}
+	
+	return $total;
+	
+}
 
 print "\n";
 my $t1 = new Benchmark;
