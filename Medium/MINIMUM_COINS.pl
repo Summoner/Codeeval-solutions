@@ -6,13 +6,13 @@ use Benchmark;
 
 my $t0 = new Benchmark;
 
-my @coins = (5,3,1);
+
 open my $input, "D:\\Perl\\input.txt" || die "Can't open file: $!\n";
 # open my $result, ">D:\\Perl\\output1.txt" || die "Can't open file: $!\n";
 
 
- my @list = ();
-
+my @list = ();
+my @coins = (5,3,1);
  while(<$input>){
 	
 	 chomp;
