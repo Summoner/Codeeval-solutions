@@ -1,4 +1,4 @@
-#!/usr/bin/perl -d
+#!/usr/bin/perl -w
 use strict;
 use warnings;
 use Data::Dumper; 
@@ -35,7 +35,7 @@ close $input;
 foreach (@list){
 	
 	
-	calc($_->[0],$_->[1]);
+	print calc($_->[0],$_->[1]),"\n";
 	
 }
 
@@ -49,19 +49,24 @@ sub calc{
 
 	my ($val1,$val2) = @_;
 	my @result_coins = ();
-	print "ERROR\n" if ($val1 > $val2);
-	print "ZERO\n" if ($val1 == $val2);
+	return "ERROR" if ($val1 > $val2);
+	return "ZERO" if ($val1 == $val2);
 	
-	my @coins = sort {$a <=> $b}keys %coins_hash;
+	my @coins = sort {$a<=>$b}keys %coins_hash;
 	
 	my $money = $val2 - $val1;
-	$money = sprintf '%.2f', $money;
-	$DB::single=2;
+	$money = sprintf ("%.2f", $money);
+	 
 	my @current_coins = grep{$_ <= $money}@coins;
-	
+	#$DB::single=2;
 	while($money > 0){
 		
-		foreach my $coin (reverse @current_coins){
+		foreach my $coin(reverse @current_coins){
+			
+			
+			$money = sprintf ("%.2f", $money);
+			last if ($money == 0);
+			# print $money == $coin,"\n";
 			
 			if ($money >= $coin){
 				
@@ -72,13 +77,15 @@ sub calc{
 		}
 		
 	}
+	my @values = ();
+	foreach(sort {$b<=>$a}@result_coins){
+		
+		
+		push @values, $coins_hash{$_};
+		
+	}
 	
-	foreach(@result_coins){
-		
-		
-		print $coins_hash{$_},"\n";
-		
-		}
+	return join (",",@values);
 }
 
 
