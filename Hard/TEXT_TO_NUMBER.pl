@@ -23,6 +23,12 @@ my @list = ();
 close $input;
 
 
+# fifteen
+# negative six hundred thirty eight
+# zero
+# two million one hundred seven
+
+
 
 my %values = (
 
