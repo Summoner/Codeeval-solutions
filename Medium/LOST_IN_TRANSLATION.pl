@@ -12,20 +12,21 @@ my @list = ();
 
 while(<$input>){
 	
-	chomp;
-	push @list, [split //,$_];
+	chomp $_;
+	push @list,[split //,$_];
 	
 }
 close $input;
 
+#print Dumper \@list;
+foreach my $arr(@list){
 
-foreach(@list){
-
-	convert($_);
+	#print scalar @$arr;
+	convert($arr);
 
 }
 
-
+#convert();
 sub convert{
 
 my $arr_ref = shift;
@@ -56,16 +57,19 @@ my %pattern = (
 	y => "a",
 	o => "e",
 	i => "k",
-	g => "l"
-);
+	g => "l",
+	x => "h"
+	);
 my @result = ();
 my %reverse_pattern = reverse %pattern;
 foreach (@$arr_ref){
 
-	push @result, $reverse_pattern{$_} if exists $reverse_pattern{$_};
+	push @result, $reverse_pattern{$_};
 
 }
-print join "",@result,"\n";
+print @result,"\n";
+#print join " ",sort keys %pattern,"\n";
+#print join " ",sort keys %reverse_pattern,"\n";
 }
 
 
