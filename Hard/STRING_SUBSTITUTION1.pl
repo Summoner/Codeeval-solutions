@@ -43,8 +43,8 @@ foreach my $arr_ref (@list) {
 sub find_final_string {
     my	( $s )	= @_;
     my @strArray = split //,$s;
-    
-   my $finalString = "";
+    my $finalString = "";
+
     for ( my $i=0;$i < scalar @F;$i++) {
 
         my  @FArray = split //,$F[$i];
@@ -52,7 +52,6 @@ sub find_final_string {
         
         my $j = 0;
         my $k = 0;
-
         my $m = 0;
 
         while($j < scalar @FArray && $k < scalar @strArray){
@@ -65,7 +64,9 @@ sub find_final_string {
                 $j++;
                 $k++;
             }else{
+
                 if ($j==0){
+
                     $m = $k;
                 }
                 $j=0;
@@ -82,7 +83,6 @@ sub find_final_string {
                 $j = 0;
                 $k = $m + scalar @FArray;
             }
-
         }
     }
     

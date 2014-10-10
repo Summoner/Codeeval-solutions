@@ -86,13 +86,8 @@ sub get_arr{
          }
      }
 
-
 return $arr;
-
-
-  }
-
-
+}
 
 sub max {
     my	( $x,$y )	= @_;

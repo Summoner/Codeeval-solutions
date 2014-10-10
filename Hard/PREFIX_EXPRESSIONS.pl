@@ -17,21 +17,14 @@ while(<$input>){
 }
 close $input;
 
-
-
 foreach my $arr (@list ) {
 
     print eval_expr($arr),"\n";
 }
 
-
-
-
-
 sub eval_expr{
 
     my $arr_ref = shift;
-    
     my %operators = ();
     $operators{"*"} = 1;
     $operators{"/"} = 1;
@@ -53,8 +46,7 @@ sub eval_expr{
         }
 
     }
-return $stack[0];
-
+   return $stack[0];
 }
 
 

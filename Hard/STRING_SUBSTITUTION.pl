@@ -28,14 +28,10 @@ sub find_final_string {
     my	( $string,$replacement )	= @_;
     
     my @replacements = split /,/,$replacement;
-
     my $finalString = "";
-
-
     my %hash = ();
     $hash{1} = "a";
     $hash{0} = "b";
-
     my %rhash = reverse %hash;
 
     
@@ -49,9 +45,7 @@ sub find_final_string {
            $repl .= $hash{$_};
        }
         $string =~ s/$inp/$repl/g;
-       
-    }
-
+     }
     my @str_array = split //,$string;
     
 
@@ -65,8 +59,5 @@ sub find_final_string {
             $finalString .= $_;
         }
     }
-
-
-
     return $finalString;
 } ## --- end sub find_final_string

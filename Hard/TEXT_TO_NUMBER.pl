@@ -6,64 +6,56 @@ use Benchmark;
 
 my $t0 = new Benchmark;
 
-
- 
-
   open my $input, "D:\\Perl\\input.txt" || die "Can't open file: $!\n";
  #open my $result, ">D:\\Perl\\output1.txt" || die "Can't open file: $!\n";
 
 my @list = (); 
 	 
 	while(<$input>){
-		
-			
-	chomp;	
-	push @list,[split / /,$_];
+    	chomp;	
+	    push @list,[split / /,$_];
 	}
 close $input;
-
 
 # fifteen
 # negative six hundred thirty eight
 # zero
 # two million one hundred seven
 
-
-
 my %values = (
 
-negative => "-" ,
-zero =>"0",
-one => "1",
-two =>"2",
-three =>"3",
-four => "4",
-five => "5",
-six => "6",
-seven => "7",
-eight => "8",
-nine => "9",
-ten => "10",
-eleven => "11",
-twelve =>"12",
-thirteen =>"13",
-fourteen => "14",
-fifteen =>"15",
-sixteen =>"16",
-seventeen =>,"17",
-eighteen => "18",
-nineteen => "19",
-twenty =>"20",
-thirty =>"30",
-forty =>"40",
-fifty =>"50",
-sixty =>"60",
-seventy=>"70",
-eighty=>"80",
-ninety =>"90",
-hundred => "100",
-thousand => "1000",
-million => "1000000"
+    negative => "-" ,
+    zero =>"0",
+    one => "1",
+    two =>"2",
+    three =>"3",
+    four => "4",
+    five => "5",
+    six => "6",
+    seven => "7",
+    eight => "8",
+    nine => "9",
+    ten => "10",
+    eleven => "11",
+    twelve =>"12",
+    thirteen =>"13",
+    fourteen => "14",
+    fifteen =>"15",
+    sixteen =>"16",
+    seventeen =>,"17",
+    eighteen => "18",
+    nineteen => "19",
+    twenty =>"20",
+    thirty =>"30",
+    forty =>"40",
+    fifty =>"50",
+    sixty =>"60",
+    seventy=>"70",
+    eighty=>"80",
+    ninety =>"90",
+    hundred => "100",
+    thousand => "1000",
+    million => "1000000"
 );
  
 foreach(@list){
@@ -77,7 +69,6 @@ foreach(@list){
 	}
 	
 	my $result = calc($_,0);
-	
 	print $result * $negative,"\n";
 }
 
@@ -107,7 +98,6 @@ sub calc{
 			
 		}elsif($arr_ref->[$_] eq "hundred"){
 			
-			
 			$partly_result *= 100;
 			 
 		}else{
@@ -115,33 +105,14 @@ sub calc{
 			$partly_result += $values{$arr_ref->[$_]};	
 			if($_ == $#{$arr_ref}){
 				
-			@$arr_ref = ();	
+	    		@$arr_ref = ();	
 			}	
 		}				
 	}	
 	$result += $partly_result;
 	calc($arr_ref,$result);	
 }
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+  
 my $t1 = new Benchmark;
 my $td = timediff($t1, $t0);
 print "the code took:",timestr($td),"\n";

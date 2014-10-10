@@ -30,10 +30,6 @@ foreach my $arr_ref (@list ) {
     push @arr,[split /,/,$str]; 
 }
 
-#print Dumper \@arr;
-
-
-
 my $count = 0;
 my $key = 0;
 my $weight = 0;
@@ -92,8 +88,6 @@ sub pack1 {
     }
     for ( my $i=1; $i < scalar @$parts; $i++) {
 
-        # $DB::single=2;
-
         for ( my $j=1;$j <= $W;$j++) {
 
            if ($parts->[$i]->{weight} > $j){
@@ -119,30 +113,24 @@ sub pack1 {
 }
     
 
-my @result = ();
+    my @result = ();
 
-get_indexes($#{$B},$#{$B->[-1]},\@result,$B,$parts);
-
-
-if (scalar @result > 0){
-
-    print join (" ", sort{$a<=>$b}@result),"\n";
-}else{
-
-    print "-\n";
-}
+    get_indexes($#{$B},$#{$B->[-1]},\@result,$B,$parts);
 
 
+    if (scalar @result > 0){
+
+        print join (" ", sort{$a<=>$b}@result),"\n";
+    }else{
+
+        print "-\n";
+    }
 } ## --- end sub package
-
-
 
 sub get_indexes {
     my	( $i,$j,$res,$B,$parts )	= @_;
 
-
     return $res if ($i == 0);
-
 
             if ($B->[$i]->[$j] == 1){
                 
@@ -157,6 +145,5 @@ sub get_indexes {
                 get_indexes($i,$j,$res,$B,$parts);
 
             }
-
 } ## --- end sub get_indexes
 

@@ -20,11 +20,7 @@ while(<$input>){
 }
 close $input;
 
-
-
-
 foreach(@list){
-	
 	
 	my $left_bound = $_->[0];
 	my $right_bound = $_->[-1];
@@ -42,8 +38,6 @@ foreach(@list){
 	print $ranges,"\n";
 }
 
-
-
 sub is_even_primes{
 	
 	my($left_bound,$right_bound) = @_;
@@ -57,22 +51,15 @@ sub is_even_primes{
 	
 	return 1 if($count % 2 == 0);
 	return 0;
-	
-	
 }
 	
 	
 sub is_palindrom{
-	
-	
-	my $input = shift;
-	
+
+    my $input = shift;
 	my $reverse_input = reverse $input;
-	
 	return 1 if ($input == $reverse_input);
 	return 0;
-	
-	
 }
 
 
