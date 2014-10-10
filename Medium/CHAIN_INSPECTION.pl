@@ -13,33 +13,52 @@ my @list = ();
 while(<$input>){
 	
 	chomp;
-	push @list,$_;
+	push @list,[split /;/,$_];
 	
 }
 close $input;
-my %hash = ();
-my %for_loops = ();
-foreach(@list){
-	my @temp = split /;/,$_;
-	   %hash = ();
-	   %for_loops = ();
-	foreach(@temp){
-		my @temp1 = split /-/,$_;
-		$hash{$temp1[0]} = $temp1[1];
-	}
-	print check(\%hash,"BEGIN",\%for_loops);
+
+
+
+
+foreach my $arr_ref (@list){
+
+    my %hash = ();
+    foreach my $elem ( @$arr_ref ) {
+
+        my @temp = split /-/,$elem;
+		$hash{$temp[0]} = $temp[1];
+
+    }
+#	print Dumper \%hash;
+	
+	print deep(\%hash,"BEGIN"),"\n";
 	
 }
-#print Dumper \%hash;
 #print check(\%hash,"BEGIN",\%for_loops);
-sub check{
+sub deep{
 
-	my ($hash_ref,$key,$for_loops) = @_;
+	my ($hash,$key) = @_;
+	return "BAD\n" unless  exists $hash->{$key};
 
-	return "GOOD\n" if $hash_ref->{$key} eq "END";
-	return "BAD\n" if exists $for_loops->{$hash_ref->{$key}};
-    $for_loops->{$key}++;
-	check($hash_ref,$hash_ref->{$key},$for_loops);
+         if ($hash->{$key} eq "END"){
+
+            delete $hash->{$key};
+            if(scalar keys %$hash == 0){
+
+                return "GOOD\n";
+
+            }else{
+            
+               return "BAD\n";
+
+            }
+         }
+    
+   my  $next_key = $hash->{$key};
+   delete $hash->{$key};
+
+	deep($hash,$next_key);
 }
 
 
