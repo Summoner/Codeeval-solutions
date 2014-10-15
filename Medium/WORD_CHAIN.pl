@@ -22,77 +22,55 @@ close $input;
 
 foreach my $str (@list){
 
-    calc($str);
+   print calc($str),"\n";
 }
 
 
 
 sub calc {
-    my	( $str )	= @_;
-    my @result = ();
-    my $count = 1;
-    while ($count <= scalar @$str){
-     
-        my @arr1 = @$str;    
-        my $arr2 = [];
-        my $last = get_last($str->[0]);
-        push @$arr2, shift @arr1;
-        deep($last,\@arr1,$arr2);
-        push @result, scalar @$arr2;
+    my	( $str,$c )	= @_;
 
-        push @$str, shift @$str;
-    $count++;
+    my $l = 0;
+    # print defined($c) ? $c:"undef","<--------->", join " ",@$str,"\n";
+
+    
+  
+    for ( my $i=0;$i <= $#{$str} ;$i++  ) {
+        my @next_str = ();
+        if (!defined($c) || $c eq get_first($str->[$i])){
+         
+                       
+            for ( my $j=0;$j <= $#{$str} ;$j++  ) {
+                 next if ($i == $j);
+                 push @next_str,$str->[$j];
+            }
+        }else{
+            next;
+        }
+        
+        $l = max($l,calc(\@next_str,get_last($str->[$i])));
+
     }
 
-    # print Dumper \@result;
-    
-    my @sorted = sort{$b<=>$a}@result;
-    if ($sorted[0] == 1){
-    
-        print "None\n";
+    if ( defined($c) ){
+        
+        return $l+1;    
+
+    }elsif( $l >1 ){
+
+        return $l;
+
     }else{
-        print "$sorted[0]\n";
+    
+    return "None";
     }
-
 } ## --- end sub calc
 
-
-
-
-sub deep {
-    my	( $last,$arr1,$arr2 )	= @_;
-
-    my $j = -1;
-    return scalar @$arr2 if (scalar @$arr1 == 0);
-    
-    foreach my $i (0..$#{$arr1} ) {
-
-        my $first = get_first($arr1->[$i]);
-
-        if ($last eq $first){
-            
-            $j = $i;
-            $last = get_last($arr1->[$i]);
-            last;
-        }
-
-    }
-    
-unless ($j == -1){
-
-    push @$arr2,splice( @$arr1, $j, 1);
-    deep($last,$arr1,$arr2);
-
-}else{
-
-    return scalar @$arr2;
-
-}
-
-} ## --- end sub deep1
-
-
-
+sub max {
+    my	( $par1,$par2 )	= @_;
+    return $par1 if ($par1 > $par2);
+    return $par2;
+} ## --- end sub max
 
 sub get_first {
     my	( $str )	= @_;
