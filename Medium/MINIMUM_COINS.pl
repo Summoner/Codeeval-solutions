@@ -6,13 +6,12 @@ use Benchmark;
 
 my $t0 = new Benchmark;
 
-
-open my $input, "D:\\Perl\\input.txt" || die "Can't open file: $!\n";
+open my $input, "/home/fanatic/Summoner/Codeeval-solutions/input.txt" || die "Can't open file: $!\n";
 # open my $result, ">D:\\Perl\\output1.txt" || die "Can't open file: $!\n";
 
 
 my @list = ();
-my @coins = (5,3,1);
+
  while(<$input>){
 	
 	 chomp;
@@ -24,49 +23,39 @@ my @coins = (5,3,1);
 
   foreach (@list){
 	
-	
-	 print calc($_,0),"\n";
+	 print deep($_,0),"\n";
 	
   }
 
 
 
 
-sub calc{
+sub deep{
 	
-	my $input = shift;
-	my $count = shift;
-	return $count if ($input == 0);
-	foreach(@coins){
+	my ( $value, $count ) = @_;
+
+    return $count if ($value == 0);
+	
+	if ($value >= 5){
 		
-		if ($_ == $input){
+		$count++;
+		my $value = $value-5;			
+		deep($value,$count);
 			
-			$count++;
-			return $count;
-		}
+	}elsif($value >= 3){
+		
+		$count++;
+		my $value = $value-3;			
+		deep($value,$count);
+
+
+	}elsif($value >= 1){
+		
+		$count++;
+		my $value = $value-1;			
+		deep($value,$count);
 		
 	}
-	
-	
-	if ($input > 5){
-		
-		$count = int($input /5);
-		my $part = $input % 5;			
-		calc($part,$count);
-			
-	}elsif($input > 3){
-		
-		$count = int($input /3);
-		my $part = $input % 3;			
-		calc($part,$count);		
-	}elsif($input > 1){
-		
-		$count = int($input /1);
-		my $part = $input % 1;			
-		calc($part,$count);		
-	}
-	
-	
 }
 
 
