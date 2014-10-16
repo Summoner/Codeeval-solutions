@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl -d
 use strict;
 use warnings;
 use Data::Dumper; 
@@ -31,10 +31,8 @@ sub calc {
     my	( $str,$c )	= @_;
 
     my $l = 0;
-    # print defined($c) ? $c:"undef","<--------->", join " ",@$str,"\n";
-
-    
-  
+     print defined($c) ? $c:"undef","<--------->", join " ",@$str,"\n";
+ 
     for ( my $i=0;$i <= $#{$str} ;$i++  ) {
         my @next_str = ();
         if (!defined($c) || $c eq get_first($str->[$i])){
