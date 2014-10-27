@@ -6,7 +6,7 @@ use Benchmark;
 
 my $t0 = new Benchmark;
 
-  open my $input, "D:\\Perl\\input.txt" || die "Can't open file: $!\n";
+  open my $input, "/home/fanatic/Summoner/Codeeval-solutions/input.txt" || die "Can't open file: $!\n";
  #open my $result, ">D:\\Perl\\output1.txt" || die "Can't open file: $!\n";
 
 my @list = (); 
@@ -24,7 +24,6 @@ close $input;
 
 my %values = (
 
-    negative => "-" ,
     zero =>"0",
     one => "1",
     two =>"2",
@@ -52,11 +51,8 @@ my %values = (
     sixty =>"60",
     seventy=>"70",
     eighty=>"80",
-    ninety =>"90",
-    hundred => "100",
-    thousand => "1000",
-    million => "1000000"
-);
+    ninety =>"90"
+    );
  
 foreach(@list){
 	
@@ -68,7 +64,10 @@ foreach(@list){
 		shift @$_;		
 	}
 	
-	my $result = calc($_,0);
+	my $for_calc = [0];
+
+    
+    my $result = calc($_,$for_calc,0);
 	print $result * $negative,"\n";
 }
 
@@ -77,40 +76,47 @@ foreach(@list){
 
 sub calc{
 	
-	my ($arr_ref,$result) = @_;	
+	my ($arr_ref,$for_calc,$result) = @_;	
 	
-	return "$result\n" if (scalar @$arr_ref == 0);
-	my $partly_result = 0;
-	
-	foreach(0..$#{$arr_ref}){			
-		
-		if($arr_ref->[$_]  eq "million"){
-			
-			$partly_result *= 1000000;	
-			splice @$arr_ref,0,$_+1;
-			last;	
-			
-		}elsif($arr_ref->[$_] eq "thousand"){
-			
-			$partly_result *= 1000;
-			splice @$arr_ref,0,$_+1;
-			last;
-			
-		}elsif($arr_ref->[$_] eq "hundred"){
-			
-			$partly_result *= 100;
-			 
-		}else{
-			
-			$partly_result += $values{$arr_ref->[$_]};	
-			if($_ == $#{$arr_ref}){
-				
-	    		@$arr_ref = ();	
-			}	
-		}				
-	}	
-	$result += $partly_result;
-	calc($arr_ref,$result);	
+    if (scalar @$arr_ref == 0){
+    
+        my $val = pop @$for_calc;
+        $result += $val;
+ 	    return "$result\n";    
+    }
+
+	my $current_value = shift @$arr_ref;
+
+    if ( exists $values{$current_value} ){
+    
+        my $val = pop @$for_calc;
+        $val += $values{$current_value};
+        push @$for_calc, $val;
+        calc($arr_ref,$for_calc,$result);
+
+    }elsif( $current_value eq "million" ){
+    
+        my $val = pop @$for_calc;
+        $val *= 1000000;
+        $result += $val;
+        $for_calc = [0];
+        calc($arr_ref,$for_calc,$result);
+    
+    }elsif( $current_value eq "thousand" ){
+    
+        my $val = pop @$for_calc;
+        $val *= 1000;
+        $result += $val;
+        $for_calc = [0];
+        calc($arr_ref,$for_calc,$result);
+
+    }elsif( $current_value eq "hundred" ){
+    
+        my $val = pop @$for_calc;
+        $val *= 100;
+        push @$for_calc, $val;
+        calc($arr_ref,$for_calc,$result);
+    }
 }
   
 my $t1 = new Benchmark;
