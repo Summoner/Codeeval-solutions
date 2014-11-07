@@ -1,7 +1,6 @@
-5
-0 2
-6 67
-43 71
-39 107
-189 140
-0
+dada
+END OF INPUT
+dadad
+dadat
+dadab
+da
