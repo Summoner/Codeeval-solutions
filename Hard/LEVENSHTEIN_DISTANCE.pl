@@ -43,26 +43,34 @@ my $word = shift @list;
      }
  }
 
-
+print Dumper \%graph;
  foreach my $test_word ( @tests ) {
 
     print find_all( {},$test_word ),"\n";
 
 }
 sub find_all {
-    my	( $seen,$start ) = @_;
+    my	( $seen,$start_node ) = @_;
 
-    $seen->{$start} = 1;
-    my $count = 0;
+    $seen->{$start_node} = 1;
+    my @queue = ();
     
-    foreach my $node (keys %{$graph{$start}}  ) {
+    push @queue, $start_node;
 
-        next if ( $seen->{$node} );
-        $count++;
-        $count += find_all( $seen, $node );
+    while ( scalar @queue > 0 ){
+
+        my $current_node = pop @queue;
+
+        foreach my $node (keys %{$graph{$current_node}}  ) {
+
+            next if ( $seen->{$node} );
+        
+            $seen->{$node} = 1;
+
+            push @queue, $node;        
+        }
     }
-
-    return $count;
+    return (scalar keys %$seen) - 1;
 } ## --- end sub find_all
 
 sub add_friend {
