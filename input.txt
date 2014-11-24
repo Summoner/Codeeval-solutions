@@ -3,4 +3,3 @@ END OF INPUT
 dadad
 dadat
 dadab
-da

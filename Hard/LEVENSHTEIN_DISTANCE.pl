@@ -21,15 +21,15 @@ my %graph = ();
 my @tests = ();
 my $word = shift @list;
   
- while ( $word ne "END OF INPUT"){
+ while ( $word !~ /END OF INPUT/ ){
  
       push @tests, $word;  
       $word = shift @list;
  }
 
 
-#print Dumper \@tests;
-#print Dumper \@list;
+print Dumper \@tests;
+print Dumper \@list;
 
 
  foreach my $test_word ( @tests ) {
@@ -37,31 +37,45 @@ my $word = shift @list;
      foreach my $word ( @list ) {
 
          if ( Levenstein_Distance( $test_word,$word ) == 1 ){
-         
+         print "added $test_word and $word\n";
             add_friend( $test_word,$word ); 
          }
      }
  }
 
+# $DB::single = 2;
 
  foreach my $test_word ( @tests ) {
 
-    print find_all( {},$test_word ),"\n";
+    print find_all(\%graph,$test_word,0 ),"\n";
 
 }
 sub find_all {
-    my	( $seen,$start ) = @_;
+    my	( $graph,$start_node,$count ) = @_;
+    my %visited = ();
+    my @queue = ();
 
-    $seen->{$start} = 1;
-    my $count = 0;
-    
-    foreach my $node (keys %{$graph{$start}}  ) {
+    push @queue,$start_node;
+    $visited{ $start_node } = 1;
 
-        next if ( $seen->{$node} );
-        $count++;
-        $count += find_all( $seen, $node );
+    foreach my $key (%{$graph->{$start_node} }  ) {
+
+        $visited{ $key } = 0;
     }
+    
+    while( scalar @queue != 0 ){
+    
+        my $node = pop @queue;
 
+
+        foreach my $child ( %{$graph->{$node}} ) {
+
+            next if ( exists $visited{ $child });
+            $count++;
+            $visited{ $child } = 1;
+            push @queue,$child;            
+        }    
+    }
     return $count;
 } ## --- end sub find_all
 
@@ -70,11 +84,9 @@ sub add_friend {
 
     $graph{$n1}{$n2} = 1;
     $graph{$n2}{$n1} = 1;
+    print "$n1 ----> $n2\n";
     
 } ## --- end sub add_friend
-
-
-
 
 sub Levenstein_Distance {
     my	( $s,$t )	= @_;
@@ -116,7 +128,6 @@ sub Levenstein_Distance {
     return $V1[length($t)] ;
 } ## --- end sub Levenstein_Distance
 
-
 sub min {
     my	( $x,$y,$z ) = @_;
 
@@ -126,6 +137,7 @@ sub min {
 
     return $sorted[0];
 } ## --- end sub min
+
 my $t1 = new Benchmark;
 my $td = timediff($t1, $t0);
 print "the code took:",timestr($td),"\n";
