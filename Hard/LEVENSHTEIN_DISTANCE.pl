@@ -43,7 +43,11 @@ print Dumper \@list;
      }
  }
 
+
 # $DB::single = 2;
+
+
+print Dumper \%graph;
 
  foreach my $test_word ( @tests ) {
 
@@ -51,6 +55,7 @@ print Dumper \@list;
 
 }
 sub find_all {
+
     my	( $graph,$start_node,$count ) = @_;
     my %visited = ();
     my @queue = ();
@@ -77,6 +82,7 @@ sub find_all {
         }    
     }
     return $count;
+   
 } ## --- end sub find_all
 
 sub add_friend {
