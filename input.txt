@@ -1,9 +1,2 @@
-<<<<<<< HEAD
-dada
-END OF INPUT
-dadad
-dadat
-dadab
-=======
-2,the
->>>>>>> 81ec7f25c0b195139e4ba68f4cf20c8634179f66
+13,8
+17,16
