@@ -1,2 +1,2 @@
-HELLO CODEEVAL
-This is some text
+23
+496
