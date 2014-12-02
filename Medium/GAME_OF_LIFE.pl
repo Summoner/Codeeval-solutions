@@ -32,141 +32,102 @@ for my $i (0.. $#list ) {
         $greed->[$i]->[$j] = $cell;
     }
 }
-my $arr = [];
-for my $i ( 0..$#{$greed->[0]} ) {
-    
-        my $cell = {};
-        $cell->{ ALIVE } = 0;
-        push @$arr,$cell;
-}
 
-unshift @$greed,$arr;
-push @$greed,$arr;
 
-for my $i ( 0..$#{$greed} ) {
-    
-        my $cell = {};
-        $cell->{ ALIVE } = 0;
-        unshift @{$greed->[$i]},$cell;
-        push @{$greed->[$i]},$cell;
-}
-#$DB::single = 2;
-#show_greed( $greed );
-print "\n";
+calc_neighbors( $greed );
 
-for ( my $i=1; $i < $#{ $greed }; $i++ ) {
-
-    for ( my $j=1; $j < $#{$greed->[$i]}; $j++ ) {
-        
-            my $n = calc_neighbors( $greed, $i,$j );
-            $greed->[$i]->[$j]->{N} = $n;            
-    }
-}
-show_greed( $greed );
-print "\n";
 my $count = 1;
 
 while ( $count <= 10 ){
 
-    for ( my $i=1; $i < $#{ $greed }; $i++ ) {
+    for ( my $i=0; $i <= $#{ $greed }; $i++ ) {
 
-        for ( my $j=1; $j < $#{$greed->[$i]}; $j++ ) {
+        for ( my $j=0; $j <= $#{$greed->[$i]}; $j++ ) {
 
-            if ( ($greed->[$i]->[$j]->{N} < 2) && ( $greed->[$i]->[$j]->{ALIVE} == 1) ){
+            if ( $greed->[$i]->[$j]->{ALIVE} == 1 ){
+
+                if ( $greed->[$i]->[$j]->{N} < 2 ){
            
-                $greed->[$i]->[$j]->{ALIVE} = 0;
-
-                decrease_neighb( $greed,$i,$j );
-                   
-            }elsif (  ($greed->[$i]->[$j]->{N} == 2 || $greed->[$i]->[$j]->{N} == 3 ) &&  ( $greed->[$i]->[$j]->{ALIVE} == 1) ){
-            
-                next;
-
-            }elsif ( ($greed->[$i]->[$j]->{N} > 3)  && ($greed->[$i]->[$j]->{ALIVE} == 1) ){
-            
-                $greed->[$i]->[$j]->{ALIVE} = 0;
-
-                decrease_neighb( $greed,$i,$j )
-
-            }elsif ( ($greed->[$i]->[$j]->{N} == 3) && ($greed->[$i]->[$j]->{ALIVE} == 0) ){
-            
-                $greed->[$i]->[$j]->{ALIVE} = 1;
+                    $greed->[$i]->[$j]->{ALIVE} = 0;
                 
-                increase_neighb( $greed,$i,$j );               
-            }
+                }elsif ( $greed->[$i]->[$j]->{N} == 2 || $greed->[$i]->[$j]->{N} == 3 ){
+            
+                    next;
 
+                }elsif ( $greed->[$i]->[$j]->{N} > 3 ){
+            
+                    $greed->[$i]->[$j]->{ALIVE} = 0;
+                }
+
+            }elsif ( $greed->[$i]->[$j]->{ALIVE} == 0 ){
+
+                if ( $greed->[$i]->[$j]->{N} == 3 ){
+            
+                    $greed->[$i]->[$j]->{ALIVE} = 1;
+                }
+            }
         }
     }
-show_greed( $greed );
-print "\n";
+calc_neighbors( $greed );
 
-    $count++;
+$count++;
 }
 
 show_greed( $greed );
 
 
 sub calc_neighbors {
+    my	( $greed )	= @_;
+    
+    for ( my $i=0; $i <= $#{ $greed }; $i++ ) {
+
+        for ( my $j=0; $j <= $#{$greed->[$i]}; $j++ ) {
+        
+            my $n = calc_neighbor( $greed, $i,$j );
+            $greed->[$i]->[$j]->{N} = $n;            
+        }
+    }
+} ## --- end sub calc_neighbors
+
+sub calc_neighbor {
     my	( $greed, $i,$j )	= @_;
    
     my $summ = 0;
 
-        $summ++ if ( $greed->[$i+1]->[$j]->{ALIVE} == 1 );
-        $summ++ if ( $greed->[$i-1]->[$j]->{ALIVE} == 1 );
-        $summ++ if ( $greed->[$i]->[$j+1]->{ALIVE} == 1 );
-        $summ++ if ( $greed->[$i]->[$j-1]->{ALIVE} == 1 );
-        $summ++ if ( $greed->[$i+1]->[$j+1]->{ALIVE} == 1 );
-        $summ++ if ( $greed->[$i-1]->[$j-1]->{ALIVE} == 1 );
-        $summ++ if ( $greed->[$i+1]->[$j-1]->{ALIVE} == 1 );
-        $summ++ if ( $greed->[$i-1]->[$j+1]->{ALIVE} == 1 );
+        $summ++ if ( is_alive( $greed,$i+1,$j ));
+        $summ++ if ( is_alive( $greed,$i-1,$j ));
+        $summ++ if ( is_alive( $greed,$i,$j+1 ));
+        $summ++ if ( is_alive( $greed,$i,$j-1 ));
+        $summ++ if ( is_alive( $greed,$i+1,$j+1 ));
+        $summ++ if ( is_alive( $greed,$i-1,$j-1 ));
+        $summ++ if ( is_alive( $greed,$i+1,$j-1 ));
+        $summ++ if ( is_alive( $greed,$i-1,$j+1 ));
    
     return $summ ;
 } ## --- end sub calc_neighbors
 
-sub decrease_neighb {
-    my	( $greed,$i,$j )	= @_;
 
-     $greed->[$i+1]->[$j]->{N}--;
-     $greed->[$i-1]->[$j]->{N}--;
-     $greed->[$i]->[$j+1]->{N}--;
-     $greed->[$i]->[$j-1]->{N}--;
-     $greed->[$i+1]->[$j+1]->{N}--;
-     $greed->[$i-1]->[$j-1]->{N}--;
-     $greed->[$i+1]->[$j-1]->{N}--;
-     $greed->[$i-1]->[$j+1]->{N}--;
+sub is_alive {
+    my	( $greed, $i, $j )	= @_;
 
-} ## --- end sub decrease_neighb
+    return 0 if ( $i < 0 || $j < 0 || $i > $#{ $greed } || $j > $#{$greed->[$i]} );
 
-sub increase_neighb {
-    my	( $greed, $i,$j )	= @_;
-
-     $greed->[$i+1]->[$j]->{N}++;
-     $greed->[$i-1]->[$j]->{N}++;
-     $greed->[$i]->[$j+1]->{N}++;
-     $greed->[$i]->[$j-1]->{N}++;
-     $greed->[$i+1]->[$j+1]->{N}++;
-     $greed->[$i-1]->[$j-1]->{N}++;
-     $greed->[$i+1]->[$j-1]->{N}++;
-     $greed->[$i-1]->[$j+1]->{N}++;
-
-} ## --- end sub increase_neighb
-
-
+    return $greed->[$i]->[$j]->{ALIVE};
+} ## --- end sub is_alive
 sub show_greed {
     my	( $greed )	= @_;
 
- for ( my $i=1; $i < $#{ $greed }; $i++ ) {
+    for ( my $i=0; $i <= $#{ $greed }; $i++ ) {
 
-    for ( my $j=1;$j< $#{$greed->[$i]}; $j++ ) {
+        for ( my $j=0; $j<= $#{$greed->[$i]}; $j++ ) {
         
-       print "$greed->[$i]->[$j]->{N} --> $greed->[$i]->[$j]->{ALIVE} \t";
-       # print ".\t" if ( $greed->[$i]->[$j]->{ALIVE} == 0 );
+            #print "$greed->[$i]->[$j]->{N}\t";
+            print ".\t" if ( $greed->[$i]->[$j]->{ALIVE} == 0 );
+            print "*\t" if ( $greed->[$i]->[$j]->{ALIVE} == 1 );
 
-    }
+        }
     print "\n";
-}   
-
-
+    }   
 } ## --- end sub show_greed
 my $t1 = new Benchmark;
 my $td = timediff($t1, $t0);
