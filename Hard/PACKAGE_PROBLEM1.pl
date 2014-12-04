@@ -1,4 +1,4 @@
-#!/usr/bin/perl -d
+#!/usr/bin/perl -w
 
 use strict;
 use warnings;
@@ -63,8 +63,13 @@ foreach my $arr_ref(@arr) {
                 $count = 0;
          }
     }
-
+#print Dumper \$indexes;
+#print Dumper \$weights;
+#print Dumper \$values;
  
+unshift @$values,0;
+unshift @$weights,0;
+
 my $arr = find_max_pack($values,$weights,scalar @$values,$W);
 
 if (scalar @$arr > 0){
@@ -84,9 +89,9 @@ sub find_max_pack {
     my $m_w = [];
 
     
-    for ( my $i=0;$i <= $n;$i++) {
+    for ( my $i=0; $i < $n; $i++) {
 
-        for ( my $j=0;$j<=$capasity + 1;$j++) {
+        for ( my $j=0; $j <= $capasity; $j++) {
 
             $m_v->[$i]->[$j] = 0;
             $m_i->[$i]->[$j] = [];
@@ -94,24 +99,23 @@ sub find_max_pack {
         }
     }
 
-$DB::single=2;
+#$DB::single=2;
 
 
-    for ( my $i=0;$i < $n;$i++  ) {
+    for ( my $i=1; $i < $n; $i++  ) {
 
-
-        for ( my $j=0;$j <= $capasity;$j++ ) {
+        for ( my $j=1; $j <= $capasity; $j++ ) {
             
-            if ($j > $weights->[$i]){
+            if ($j >= $weights->[$i]){
             
                 my $v_incl = $m_v->[$i-1]->[$j-$weights->[$i]] + $values->[$i];
 
                 if ($v_incl > $m_v->[$i-1]->[$j]){
                 
                    $m_v->[$i]->[$j] = $v_incl;
-                   push @{$m_i->[$i]->[$j]},@{$m_i->[$i-1]->[$j-$weights->[$i]]};
-                   push @{$m_i->[$i]->[$j]},$i+1;
-
+                   push @{ $m_i->[$i]->[$j] }, @{ $m_i->[$i-1]->[$j-$weights->[$i]] };
+                   push @{ $m_i->[$i]->[$j] }, $i;
+                   
                 }else{
                 
                     $m_v->[$i]->[$j] =  $m_v->[$i-1]->[$j];  
@@ -129,11 +133,31 @@ $DB::single=2;
     }
 my $max_val = $m_v->[$n-1]->[$capasity];
 
+#show_arr( $m_i );
+#print "\n";
+#show_arr( $m_v );
 
 for ( my $i=0;$i <= $capasity;$i++) {
+
     return $m_i->[$n-1]->[$i] if ($m_v->[$n-1]->[$i] == $max_val);
 }
 
 } ## --- end sub find_max_pack
+
+sub show_arr {
+    my	( $arr ) = @_;
+
+
+    for ( my $i=0;$i <= $#{$arr};$i++ ) {
+
+
+        for ( my $j=0;$j <= $#{$arr->[$i]} ;$j++ ) {
+
+                print "$arr->[$i]->[$j]\t";
+        }
+        print "\n";
+    }
+    return ;
+} ## --- end sub show_arri
 
 

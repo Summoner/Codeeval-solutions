@@ -29,45 +29,48 @@ foreach my $arr_ref (@list ) {
     my $str = join ",",$max_cap,$arr_ref->[1];
     push @arr,[split /,/,$str]; 
 }
-
+#print Dumper \@arr;
 my $count = 0;
-my $key = 0;
+my $index = 0;
 my $weight = 0;
 my $value = 0;
-my $parts = [];
+my $items = [];
 foreach my $arr_ref(@arr) {
     
-
     my $W = shift @$arr_ref;
-    
-       $parts = [];
+    $items = [];
+
     foreach (@$arr_ref){
                 
         $count++;
+        if ( $count == 1 ){
+        
+             $index = $_;
 
-        $key = $_ if ($count == 1);
-        $weight = $_ * 100 if ($count == 2);
-         if ($count == 3){
+        }elsif( $count == 2 ){
+        
+            $weight = $_ * 100;
+
+        }elsif ( $count == 3 ){
             
                 $value = $_;
-                my $hash = {};
-                $hash->{index} = $key;
-                $hash->{weight} = $weight;
-                $hash->{value} = $value;
-                push @$parts, $hash;
+                my $item = {};
+                $item->{index} = $index;
+                $item->{weight} = $weight;
+                $item->{value} = $value;
+                push @$items, $item;
                 $count = 0;
          }
     }
 
- unshift @$parts,0;
- pack1($W,$parts);
-
+    unshift @$items,0;
+    pack1($W,$items);
 }
 
 
 
 sub pack1 {
-    my	( $W,$parts )	= @_;
+    my	( $W,$items )	= @_;
 
     my $A = [];
     my $B = [];
@@ -76,30 +79,31 @@ sub pack1 {
     for ( my $i=0;$i<= $W;$i++ ) {
 
         $A->[0]->[$i] = 0;
-    }
-
-    for ( my $i=0;$i< scalar @$parts;$i++ ) {
-
-        $A->[$i]->[0] = 0;
-    }
-    for ( my $i=1;$i<= $W;$i++ ) {
-
         $B->[0]->[$i] = 0;
     }
-    for ( my $i=1; $i < scalar @$parts; $i++) {
 
-        for ( my $j=1;$j <= $W;$j++) {
+    for ( my $i=0;$i< scalar @$items;$i++ ) {
 
-           if ($parts->[$i]->{weight} > $j){
+        $A->[$i]->[0] = 0;
+        $B->[$i]->[0] = 0;
+    }
 
-                $A->[$i]->[$j] = 0;
+   
+
+    for ( my $i=1; $i < scalar @$items; $i++) {
+
+        for ( my $j=1; $j <= $W; $j++ ) {
+
+           if ( $items->[$i]->{weight} > $j ){
+
+                $A->[$i]->[$j] = $A->[$i-1]->[$j];
                 $B->[$i]->[$j] = 0;
 
-           }elsif($parts->[$i]->{weight} <= $j){
+           }elsif( $items->[$i]->{weight} <= $j ){
            
-                if ( $parts->[$i]->{value} + $A->[$i-1]->[$j - $parts->[$i]->{weight}] > $A->[$i-1]->[$j] ){
+                if ( ( $items->[$i]->{value} + $A->[$i-1]->[$j - $items->[$i]->{weight}] ) > $A->[$i-1]->[$j] ){
                     
-                    $A->[$i]->[$j] =  $parts->[$i]->{value} + $A->[$i-1]->[$j - $parts->[$i]->{weight}];   
+                    $A->[$i]->[$j] =  $items->[$i]->{value} + $A->[$i-1]->[$j - $items->[$i]->{weight}];   
                     $B->[$i]->[$j] = 1;
 
                 }else{
@@ -115,12 +119,11 @@ sub pack1 {
 
     my @result = ();
 
-    get_indexes($#{$B},$#{$B->[-1]},\@result,$B,$parts);
-
+    get_indexes($#{$B},$#{$B->[-1]},\@result,$B,$items);
 
     if (scalar @result > 0){
 
-        print join (" ", sort{$a<=>$b}@result),"\n";
+        print join (",", sort{$a<=>$b}@result),"\n";
     }else{
 
         print "-\n";
@@ -147,3 +150,26 @@ sub get_indexes {
             }
 } ## --- end sub get_indexes
 
+sub show_arr {
+    my	( $arr )	= @_;
+
+
+    for ( my $i=0;$i <= $#{$arr};$i++ ) {
+
+
+        for ( my $j=0;$j <= $#{$arr->[$i]} ;$j++ ) {
+
+                print "$arr->[$i]->[$j]\t";
+        }
+        print "\n";
+    }
+    return ;
+} ## --- end sub show_arri
+
+
+sub max {
+    my	( $a,$b )	= @_;
+
+    return $a if ( $a > $b ) ;
+    return $b;
+} ## --- end sub max
