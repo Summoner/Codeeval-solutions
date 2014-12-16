@@ -14,24 +14,32 @@ my @list = ();
 
     while(<$input>){
     chomp;
-    push @list,[split /,/,$_];
+    push @list,$_;
 	}
 close $input;
 
 #print Dumper \@list;
-foreach my $arr ( @list ) {
+foreach my $val ( @list ) {
 
-    my $n = $arr->[0];
-    my $p1 = $arr->[1];
-    my $p2 = $arr->[2];
-
-    my $bin = sprintf( "%b",$n );
-    my @bin = split //,$bin;
-    my @reverse_bin = reverse @bin;
-    print "true\n" if ( $reverse_bin[$p1-1] == $reverse_bin[$p2-1] );
-    print "false\n" if ( $reverse_bin[$p1-1] != $reverse_bin[$p2-1] );
-
+    print calc_fib($val),"\n";
 }
+
+
+sub calc_fib {
+    my	( $n )	= @_;
+
+    my %fib = ();
+    $fib{0} = 0;
+    $fib{1} = 1;
+
+
+    foreach my $i ( 2..$n ) {
+
+        $fib{$i} = $fib{$i-1} + $fib{$i-2};
+    }
+
+    return $fib{$n};
+} ## --- end sub calc_fib
 my $t1 = new Benchmark;
 my $td = timediff($t1, $t0);
 print "the code took:",timestr($td),"\n";

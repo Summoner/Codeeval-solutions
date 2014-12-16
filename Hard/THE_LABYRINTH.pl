@@ -6,10 +6,10 @@ my $t0 = new Benchmark;
   open my $input, "/home/fanatic/Summoner/Codeeval-solutions/input.txt" || die "Can't open file: $!\n";
  #open my $result, ">D:\\Perl\\output1.txt" || die "Can't open file: $!\n";
 
-my $maze = []; 
-	 
+my $maze = [];
+
 	while(<$input>){
-    	chomp;	
+    	chomp;
 	    push @$maze,[split //,$_];
 	}
 close $input;
@@ -44,9 +44,9 @@ draw_way( $maze,$path,$end_X,$end_Y );
 show_maze( $maze );
 
 sub dijkstra{
-	
+
 	my ($graph,$start) = @_;
-	
+
 	#if vertex in tree yet
 	my %intree = ();
 	#distance from current vertex to start
@@ -64,40 +64,40 @@ sub dijkstra{
 
 	$distance{$start} = 0;
 	$v = $start;
-		
+
 	foreach (keys %{$graph}){
-		
+
 		$parent{$_} = -1;
-		# $distance{$_} = LONG_MAX;		
-	}	
-	
+		# $distance{$_} = LONG_MAX;
+	}
+
 	while( !exists $intree{$v} ){
-		
+
 		$intree{$v} = 1;
 #		print "$v  $distance{$v}\n";
 
 		foreach( keys %{$graph->{$v}} ){
-			
+
 			$w = $_;
 			$weight = $graph->{$v}->{$w};
-			
-			if( ( !exists $distance{$w} ) || ( $distance{$w} > $distance{$v} + $weight ) ){				
-				
+
+			if( ( !exists $distance{$w} ) || ( $distance{$w} > $distance{$v} + $weight ) ){
+
 				$distance{$w} = $distance{$v} + $weight;
-				$parent{$w} = $v;					
+				$parent{$w} = $v;
 			}
 		}
-		
+
 		$dist = undef;
-		
-		foreach( keys %{$graph} ){			
-			
+
+		foreach( keys %{$graph} ){
+
 			if( ( !exists $intree{$_} ) && ( ( exists $distance{$_} && !defined $dist ) || ( exists $distance{$_} && $distance{$_} < $dist ) ) ){
-				
+
 				$dist = $distance{$_};
-				$v = $_;				
-			}			
-		}		
+				$v = $_;
+			}
+		}
 	}
 
 return \%parent;
@@ -112,13 +112,13 @@ sub draw_way {
        $maze->[$end_Y]->[$end_X] = "+";
 
     while( $path->{ $key } != -1 ){
-    
+
         $key = $path->{ $key };
         my ( $i,$j ) = split /\./,$key;
 
         $maze->[$i]->[$j] = "+";
     }
-    
+
 } ## --- end sub draw_way
 
 sub create_graph {
@@ -132,7 +132,7 @@ sub create_graph {
             add_edge( $maze,$graph,$i,$j,$i+1,$j );
             add_edge( $maze,$graph,$i,$j,$i,$j-1 );
             add_edge( $maze,$graph,$i,$j,$i,$j+1 );
-        }    
+        }
     }
 } ## --- end sub create_graph
 
@@ -159,21 +159,21 @@ sub get_XY {
         for ( my $i=0; $i <= $#{ $maze->[0] }; $i++ ) {
 
             if ( $maze->[0]->[$i] eq " " ){
-        
+
                 $x = $i;
-                $y = 0;        
+                $y = 0;
             }
         }
     }elsif( $direction == -1 ){
-    
+
          for ( my $i=0; $i <= $#{ $maze->[-1] }; $i++ ) {
 
              if ( $maze->[-1]->[$i] eq " " ){
-        
+
                 $x = $i;
-                $y = $#{$maze};        
+                $y = $#{$maze};
              }
-         }    
+         }
     }
     return ( $x,$y ) ;
 } ## --- end sub get_XY
@@ -189,7 +189,7 @@ sub show_maze {
         }
         print "\n";
     }
-    
+
 } ## --- end sub show_maze
 
 my $t1 = new Benchmark;

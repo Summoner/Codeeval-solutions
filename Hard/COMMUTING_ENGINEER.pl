@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 use strict;
 use warnings;
-use Data::Dumper; 
+use Data::Dumper;
 use Benchmark;
 
 my $t0 = new Benchmark;
@@ -9,7 +9,7 @@ my $t0 = new Benchmark;
   open my $input, "/home/fanatic/Summoner/Codeeval-solutions/input.txt" || die "Can't open file: $!\n";
   #open my $result, ">/home/fanatic/Summoner/Codeeval-solutions/output1.txt" || die "Can't open file: $!\n";
 
-my @points = (); 
+my @points = ();
 my $count = 0;
 	while(<$input>){
     	chomp;
@@ -25,127 +25,39 @@ my $count = 0;
 close $input;
 
 #print Dumper \@points;
-unshift @points,0;
 
-my $matrix = [];
+my $graph = {};
 
-for ( my $j=1; $j < scalar @points; $j++ ) {
+create_graph( $graph );
 
-    $matrix->[0]->[$j] = $points[$j]->{n};
-}
-
-for ( my $i=1; $i < scalar @points; $i++ ) {
-
-    $matrix->[$i]->[0] = $points[$i]->{n};
-}
-
-for ( my $i=1; $i < scalar @points; $i++ ) {
-
-    for ( my $j=1; $j < scalar @points; $j++ ) {
-
-        next if ( $i == $j );
-        my $hash = {};
-        $hash->{STATUS} = 0;
-        $hash->{VALUE} = calc( $points[$i],$points[$j] );
-        $matrix->[$i]->[$j] = $hash;
-
-        print "i: $i ---> j:$j : $hash->{VALUE}\n";
-    }
-}
-#show( $matrix );
-#$DB::single = 2;
-
-my @res = salesman(1);
+print Dumper \$graph;
 
 
+sub create_graph {
+    my	( $graph )	= @_;
 
-foreach my $elem ( @res ) {
+    for ( my $i=0; $i <= $#points-1; $i++ ) {
 
+        my $v1 = $points[$i]->{n};
 
-    print "$elem\n";
-}
-#show( $matrix );
+        for ( my $j=$i+1; $j <= $#points ;$j++ ) {
 
-sub show {
-    my	( $matrix )	= @_;
+            my $v2 = $points[$j]->{n};
+            my $edge = calc_edge( $points[$i]->{x}, $points[$i]->{y},$points[$j]->{x},$points[$j]->{y} );
 
-    for ( my $i=0; $i <= $#{$matrix}; $i++ ) {
-
-        for ( my $j=0; $j <= $#{$matrix->[$i]}; $j++ ) {
-            
-            if ( defined $matrix->[$i]->[$j] ){
-            
-                 print "val\t";
-                 next;                
-            }else{
-            
-                print "undef\t";
-            }
+            $graph->{$v1}->{$v2} = $edge;
+            $graph->{$v2}->{$v1} = $edge;
         }
-        print "\n";
-    }
-    
-} ## --- end sub show
-
-
-sub salesman {
-    my	( $i )	= @_;
-    
-    my @result = ();
-    my $count = scalar @points;
-    push @result, $matrix->[$i]->[0];
-    exclude( $matrix, $i );
-    while ( $count > 0 ){
-
-        my $min = undef;
-        my $next = 0;
-        my $j_exclude = 0;
-
-        for ( my $j=1; $j<= scalar @{$matrix->[$i]}; $j++ ) {
-        
-            if( defined $matrix->[$i]->[$j] && ( !defined $min ||  $min > $matrix->[$i]->[$j]->{VALUE} ) && $matrix->[$i]->[$j]->{STATUS} == 0 ){
-
-                $min = $matrix->[$i]->[$j]->{VALUE};
-                $next = $matrix->[0]->[$j];
-                $j_exclude = $j;
-            }
-        }
-
-        last if ( $next == 0 );
-        exclude( $matrix, $j_exclude );
-        $i = $next;
-        $count--;
-        push @result,$next;
-
-
     }
 
-    return @result;
-} ## --- end sub salesman
+} ## --- end sub create_graph
 
+sub calc_edge {
+    my	( $x1,$y1,$x2,$y2 )	= @_;
 
-sub exclude {
-    my	( $matrix, $j_exclude )	= @_;
+    return sqrt ( ($x2-$x1)**2 + ($y2-$y1)**2 );
+} ## --- end sub calc_edge
 
-    
-    for ( my $i=1; $i <= $#{$matrix}; $i++ ) {
-
-        next unless ( defined $matrix->[$i]->[$j_exclude] );
-
-        
-        $matrix->[$i]->[$j_exclude]->{STATUS} = 1;
-    }
-   
-} ## --- end sub exclude
-
-
-
-sub calc {
-    my	( $p1,$p2 )	= @_;
-
-    my $diff = sqrt( ($p2->{x} - $p1->{x})*($p2->{x} - $p1->{x}) + ($p2->{y} - $p1->{y})* ($p2->{y} - $p1->{y}) );
-    return $diff;
-} ## --- end sub calc
 my $t1 = new Benchmark;
 my $td = timediff($t1, $t0);
 print "the code took:",timestr($td),"\n";
