@@ -10,26 +10,16 @@ open my $input, "/home/fanatic/Summoner/Codeeval-solutions/input.txt" || die "Ca
 
 
 
-my @list = ();
+my $summ = 0;
 
 	while(<$input>){
         chomp $_;
-	    push @list,[split //,$_];
+        $summ += $_;
 	}
 close $input;
 
-#print Dumper \@list;
-foreach my $arr ( @list ) {
+print "$summ\n";
 
-    my $summ = 0;
-
-
-    foreach my $n ( @$arr ) {
-
-        $summ += $n;
-    }
- print "$summ\n";
-}
 my $t1 = new Benchmark;
 my $td = timediff($t1, $t0);
 print "the code took:",timestr($td),"\n";
