@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Data::Dumper;
 use Benchmark;
-
+use Convert::Color::HSL;
 my $t0 = new Benchmark;
 open my $input, "/home/fanatic/Summoner/Codeeval-solutions/input.txt" || die "Can't open file: $!\n";
 # open my $result, ">D:\\Perl\\output1.txt" || die "Can't open file: $!\n";
@@ -37,7 +37,6 @@ foreach my $str (@list){
     }
 }
 
-
 sub cmyk_to_rgb {
     my	( $arr )	= @_;
 
@@ -48,7 +47,7 @@ sub cmyk_to_rgb {
     my $G = 255 * (1-$M) * (1-$K);
     my $B = 255 * (1-$Y) * (1-$K);
 
-    print "rgb(",join (",",round(abs $R),round(abs $G),round(abs $B)), ")","cmyk\n";
+    print "rgb(",join (",",round(abs $R),round(abs $G),round(abs $B)), ")","\n";
 } ## --- end sub cmyk_to_rgb
 
 sub hsv_to_rgb {
@@ -75,7 +74,7 @@ sub hsv_to_rgb {
 
     ( $R,$G,$B ) = ( $R * 255/100, $G * 255/100, $B * 255/100 );
 
-    print "rgb(",join (",",round(abs $R),round(abs $G),round(abs $B)), ")","hsv\n";
+    print "rgb(",join (",",round(abs $R),round(abs $G),round(abs $B)), ")","\n";
 
 
 } ## --- end sub hsv_to_rgb
@@ -102,7 +101,7 @@ sub hsl_to_rgb {
 
     my ( $R,$G,$B ) = ( ($R1 + $m)*255,($G1+ $m)*255,($B1 + $m)*255 );
 
-    print "rgb(",join (",",round(abs $R),round(abs $G),round(abs $B)), ")","hsl\n";
+    print "rgb(",join (",",round(abs $R),round(abs $G),round(abs $B)), ")","\n";
 
 
 } ## --- end sub hsl_to_rgb
@@ -120,7 +119,7 @@ sub hex_to_rgb {
     $G = sprintf( "%d",hex($G));
     $B = sprintf( "%d",hex($B));
 
-    print "rgb(",join (",",round(abs $R),round(abs $G),round(abs $B)), ")","hex\n";
+    print "rgb(",join (",",round(abs $R),round(abs $G),round(abs $B)), ")","\n";
 
 } ## --- end sub hex_to_rgb
 
