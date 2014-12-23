@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Data::Dumper;
 use Benchmark;
-use Convert::Color::HSL;
+
 my $t0 = new Benchmark;
 open my $input, "/home/fanatic/Summoner/Codeeval-solutions/input.txt" || die "Can't open file: $!\n";
 # open my $result, ">D:\\Perl\\output1.txt" || die "Can't open file: $!\n";
@@ -47,7 +47,7 @@ sub cmyk_to_rgb {
     my $G = 255 * (1-$M) * (1-$K);
     my $B = 255 * (1-$Y) * (1-$K);
 
-    print "rgb(",join (",",round(abs $R),round(abs $G),round(abs $B)), ")","\n";
+    print "RGB(",join (",",round($R),round($G),round($B)), ")","\n";
 } ## --- end sub cmyk_to_rgb
 
 sub hsv_to_rgb {
@@ -55,28 +55,25 @@ sub hsv_to_rgb {
     my $str = join "",@$arr;
 
 	my ( $H,$S,$V ) = $str =~ /HSV\((\d+)\,(\d+)\,(\d+)\)/;
+#$DB::single = 2;
+    $S = $S/100;
+    $V = $V/100;
+    my $C = $V * $S;
+    my $X = $C * (1 - abs( remainder($H) -1));
+    my $m = $V - $C;
 
-    my $H_i = int $H / 60;
+    my ( $R1,$G1,$B1 ) = 0;
 
-    my $V_min = (100 - $S) * $V/100;
-    my $a = ($V - $V_min) * ($H % 60)/60;
-    my $V_inc = $V_min + $a;
-    my $V_dec = $V - $a;
+    ( $R1,$G1,$B1 ) = ( $C,$X,0 ) if ( $H >= 0 && $H < 60 );
+    ( $R1,$G1,$B1 ) = ( $X,$C,0 ) if ( $H >= 60 && $H < 120 );
+    ( $R1,$G1,$B1 ) = ( 0,$C,$X ) if ( $H >= 120 && $H < 180 );
+    ( $R1,$G1,$B1 ) = ( 0,$X,$C ) if ( $H >= 180 && $H < 240 );
+    ( $R1,$G1,$B1 ) = ( $X,0,$C ) if ( $H >= 240 && $H < 300 );
+    ( $R1,$G1,$B1 ) = ( $C,0,$X ) if ( $H >= 300 && $H < 360 );
 
-    my ( $R,$G,$B ) = 0;
+    my ( $R,$G,$B ) = ( ($R1 + $m)*255,($G1+ $m)*255,($B1 + $m)*255 );
 
-    ( $R,$G,$B ) = ( $V,$V_inc,$V_min ) if ( $H_i == 0 );
-    ( $R,$G,$B ) = ( $V_dec,$V,$V_min ) if ( $H_i == 1 );
-    ( $R,$G,$B ) = ( $V_min,$V,$V_inc ) if ( $H_i == 2 );
-    ( $R,$G,$B ) = ( $V_min,$V_dec,$V ) if ( $H_i == 3 );
-    ( $R,$G,$B ) = ( $V_inc,$V_min,$V ) if ( $H_i == 4 );
-    ( $R,$G,$B ) = ( $V,$V_min,$V_dec ) if ( $H_i == 5 );
-
-    ( $R,$G,$B ) = ( $R * 255/100, $G * 255/100, $B * 255/100 );
-
-    print "rgb(",join (",",round(abs $R),round(abs $G),round(abs $B)), ")","\n";
-
-
+    print "RGB(",join (",",round($R),round($G),round($B)), ")","\n";
 } ## --- end sub hsv_to_rgb
 
 sub hsl_to_rgb {
@@ -87,7 +84,7 @@ sub hsl_to_rgb {
     $S = $S/100;
     $L = $L/100;
     my $C = (1 - abs ( 2 * $L - 1 )) * $S;
-    my $X = $C * (1 - abs( ($H/60) % 2 -1));
+    my $X = $C * (1 - abs( remainder($H) -1));
     my $m = $L - $C/2;
 
     my ( $R1,$G1,$B1 ) = 0;
@@ -101,7 +98,7 @@ sub hsl_to_rgb {
 
     my ( $R,$G,$B ) = ( ($R1 + $m)*255,($G1+ $m)*255,($B1 + $m)*255 );
 
-    print "rgb(",join (",",round(abs $R),round(abs $G),round(abs $B)), ")","\n";
+    print "RGB(",join (",",round($R),round($G),round($B)), ")","\n";
 
 
 } ## --- end sub hsl_to_rgb
@@ -119,10 +116,17 @@ sub hex_to_rgb {
     $G = sprintf( "%d",hex($G));
     $B = sprintf( "%d",hex($B));
 
-    print "rgb(",join (",",round(abs $R),round(abs $G),round(abs $B)), ")","\n";
+    print "RGB(",join (",",round($R),round($G),round($B)), ")","\n";
 
 } ## --- end sub hex_to_rgb
 
+sub remainder {
+    my	( $H )	= @_;
+
+    my $part1 = (int ( $H/60 )) % 2;
+    my $part2 = $H/60 - int ( $H/60 );
+    return $part1 + $part2 ;
+} ## --- end sub remainder
 
 sub round {
     my	( $inp )	= @_;
