@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 use utf8;
-use Data::Dumper; 
+use Data::Dumper;
 use bigint;
 
 open my $input, "/home/fanatic/Summoner/Codeeval-solutions/input.txt" || die "Can't open file: $!\n";
@@ -11,10 +11,10 @@ open my $input, "/home/fanatic/Summoner/Codeeval-solutions/input.txt" || die "Ca
 my @list = ();
 
 while(<$input>){
-	
+
 	chomp;
 	push @list,$_;
-	
+
 }
 close $input;
 

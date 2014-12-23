@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 use strict;
 use warnings;
-use Data::Dumper; 
+use Data::Dumper;
 use Benchmark;
 use POSIX;
 
@@ -10,23 +10,23 @@ my $t0 = new Benchmark;
   open my $input, "/home/fanatic/Summoner/Codeeval-solutions/input.txt" || die "Can't open file: $!\n";
  #open my $result, ">D:\\Perl\\output1.txt" || die "Can't open file: $!\n";
 
-my @list = (); 
-	 
+my @list = ();
+
 	while(<$input>){
-    	chomp;	
+    	chomp;
 	    push @list,[split /\s+/,$_];
 	}
 close $input;
 
 foreach my $arr ( @list ) {
 
-    my @points = ();   
+    my @points = ();
     foreach my $elem ( @$arr ) {
 
         my ( $x,$y ) = split /,/, $elem;
         push @points,[ $x,$y ];
     }
-  create_graph( \@points );  
+  create_graph( \@points );
 }
 
 sub create_graph{
@@ -51,7 +51,7 @@ sub create_graph{
                 my $e = calc_edge( $points->[$i]->[0], $points->[$i]->[1], $points->[$j]->[0], $points->[$j]->[1]);
                 $graph->{$v1}->{$v2} = $e;
                 $graph->{$v2}->{$v1} = $e;
-            }            
+            }
         }
 
     prim_alg( $graph,0);
@@ -59,7 +59,7 @@ sub create_graph{
 
 sub prim_alg {
     my ( $graph,$column_start )	= @_;
-  
+
     my @nodes = keys %{$graph};
     # print join (" ",sort @nodes),"\n";
     my $column = $column_start;
@@ -67,7 +67,7 @@ sub prim_alg {
     my @edges = ();
     my $edge = 0;
     my $matrix = [];
-    
+
     for ( my $i=0; $i < scalar @nodes; $i++ ) {
 
         for ( my $j=0; $j < scalar @nodes; $j++ ) {
@@ -86,9 +86,9 @@ sub prim_alg {
         push @columns, $column;
         push @edges, $edge;
     }
-    
+
     my $result = 0;
-    
+
     foreach my $edge ( @edges ) {
 
         $result += $edge;
@@ -109,9 +109,9 @@ sub get_min {
             next if ( $matrix->[$i]->[$column] == 0 );
 
             if ( !defined $min || $min > $matrix->[$i]->[$column] ){
-            
+
                 $min = $matrix->[$i]->[$column];
-                $row = $i;            
+                $row = $i;
             }
         }
     }
@@ -120,7 +120,7 @@ sub get_min {
 
 sub delete_row {
     my	( $matrix,$i )	= @_;
-    
+
     for ( my $j=0; $j <= $#{$matrix->[$i]}; $j++) {
 
         $matrix->[$i]->[$j] = 0;

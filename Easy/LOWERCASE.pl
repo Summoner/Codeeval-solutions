@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 use strict;
 use warnings;
-use Data::Dumper; 
+use Data::Dumper;
 use Benchmark;
 
 my $t0 = new Benchmark;
@@ -10,10 +10,10 @@ open my $input, "/home/fanatic/Summoner/Codeeval-solutions/input.txt" || die "Ca
 
 
 
-my @list = (); 
-	 
-	while(<$input>){			
-	chomp;	
+my @list = ();
+
+	while(<$input>){
+	chomp;
 	push @list,$_;
 	}
 close $input;
