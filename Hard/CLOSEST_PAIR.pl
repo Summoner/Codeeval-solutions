@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 use strict;
 use warnings;
-use Data::Dumper; 
+use Data::Dumper;
 use Benchmark;
 
 my $t0 = new Benchmark;
@@ -9,10 +9,10 @@ my $t0 = new Benchmark;
   open my $input, "/home/fanatic/Summoner/Codeeval-solutions/input.txt" || die "Can't open file: $!\n";
  #open my $result, ">D:\\Perl\\output1.txt" || die "Can't open file: $!\n";
 
-my @list = (); 
-	 
+my @list = ();
+
 	while(<$input>){
-    	chomp;	
+    	chomp;
 	    push @list, $_;
 	}
 close $input;
@@ -24,7 +24,7 @@ my $coord = [];
 foreach my $element ( @list ) {
 
     if ( $count == 0 ){
-        
+
         push @$all,$coord;
         $coord = [];
         last if ( $element == 0 );
@@ -33,7 +33,7 @@ foreach my $element ( @list ) {
     }else{
 
         push @$coord, [split /\s+/,$element];
-        $count--;    
+        $count--;
     }
 
 }
@@ -43,7 +43,7 @@ foreach my $koord ( @$all ) {
 
     my @points = ();
     my $count = 0;
-    
+
     foreach my $pair ( @$koord ) {
 
         my $p = {};
@@ -56,7 +56,6 @@ foreach my $koord ( @$all ) {
 
     print Closest(\@points),"\n";
 }
-
 
 sub Closest {
     my	( $points )	= @_;
@@ -77,12 +76,12 @@ sub Closest {
      my $result = ClosestUtil( $pointsX,$pointsY,scalar @$points );
 
     if ( $result >= 10000 ){
-    
+
         return "INFINITY";
 
     }else{
 
-        return sprintf( "%.4f",$result);    
+        return sprintf( "%.4f",$result);
     }
 
 } ## --- end sub Closest
@@ -91,7 +90,7 @@ sub ClosestUtil {
     my	( $Px,$Py,$n )	= @_;
 
     if ( $n <= 3 ){
-    
+
         return brute_force( $Px );
     }
 
@@ -103,17 +102,17 @@ sub ClosestUtil {
 
     my $li = 0;
     my $ri = 0;
-    
+
 
     for ( my $i=0;$i < $n;$i++ ) {
 
         if ( $Py->[$i]->{x} <= $midPoint->{x} ){
-            
-            $Pyl->[$li++] = $Py->[$i];       
+
+            $Pyl->[$li++] = $Py->[$i];
 
         }else{
-        
-            $Pyr->[$ri++] = $Py->[$i];    
+
+            $Pyr->[$ri++] = $Py->[$i];
         }
     }
     my $dl = ClosestUtil( $Px, $Pyl, $mid);
@@ -128,7 +127,7 @@ sub ClosestUtil {
     for ( my $i=0;$i < $n; $i++ ) {
 
         if ( abs( $Py->[$i]->{x} - $midPoint->{x}) < $d ){
-        
+
             $strip->[$j] = $Py->[$i];
             $j++;
         }
@@ -136,9 +135,6 @@ sub ClosestUtil {
 
     return min( $d, stripClosest( $strip, $j,$d) );
 } ## --- end sub ClosestUtil
-
-
-
 
 sub stripClosest {
     my	( $strip, $size, $d )	= @_;
@@ -150,9 +146,9 @@ sub stripClosest {
         for ( my $j= $i+1;$j < $size && ( $strip->[$j]->{y} - $strip->[$i]->{y} ) < $min; $j++ ) {
 
             if ( dist( $strip->[$i],$strip->[$j]) < $min ){
-            
+
                 $min = dist( $strip->[$i],$strip->[$j] );
-            }            
+            }
         }
     }
 
@@ -176,7 +172,7 @@ sub brute_force {
         for ( my $j=$i+1; $j < scalar @$points; $j++ ) {
 
             if ( !defined $min || dist( $points->[$i],$points->[$j]) < $min ){
-            
+
                 $min = dist( $points->[$i],$points->[$j]);
             }
         }
@@ -208,4 +204,4 @@ sub sort_y {
 
 my $t1 = new Benchmark;
 my $td = timediff($t1, $t0);
-print "the code took:",timestr($td),"\n";
+:wprint "the code took:",timestr($td),"\n";
