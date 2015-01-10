@@ -1,0 +1,79 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Closest	CLOSEST_PAIR.pl	/^sub Closest {$/;"	s
+ClosestUtil	CLOSEST_PAIR.pl	/^sub ClosestUtil {$/;"	s
+Levenstein_Distance	LEVENSHTEIN_DISTANCE.pl	/^sub Levenstein_Distance {$/;"	s
+_spread_light	RAY_OF_LIGHT.pl	/^sub _spread_light {$/;"	s
+add_edge	THE_LABYRINTH.pl	/^sub add_edge {$/;"	s
+add_friend	LEVENSHTEIN_DISTANCE.pl	/^sub add_friend {$/;"	s
+are_uniq	TOO_UNIQUE.pl	/^sub are_uniq {$/;"	s
+brute_force	CLOSEST_PAIR.pl	/^sub brute_force {$/;"	s
+build_indexes	TYPE_AHEAD.pl	/^sub build_indexes {$/;"	s
+calc	CLIMBING_STAIRS.pl	/^sub calc {$/;"	s
+calc	COMPUTER_TERMINAL.pl	/^sub calc {$/;"	s
+calc	FIND_MIN.pl	/^sub calc {$/;"	s
+calc	MINIMUM_PATH_SUM.pl	/^sub calc {$/;"	s
+calc	TEXT_TO_NUMBER.pl	/^sub calc{$/;"	s
+calc	TYPE_AHEAD.pl	/^sub calc {$/;"	s
+calc	UGLY_NUMBERS.pl	/^sub calc {$/;"	s
+calc_edge	COMMUTING_ENGINEER.pl	/^sub calc_edge {$/;"	s
+calc_edge	MARS_NETWORKS.pl	/^sub calc_edge {$/;"	s
+clear_board	WORD_SEARCH.pl	/^sub clear_board {$/;"	s
+clear_matrix	COMPUTER_TERMINAL.pl	/^sub clear_matrix {$/;"	s
+create_graph	COMMUTING_ENGINEER.pl	/^sub create_graph {$/;"	s
+create_graph	MARS_NETWORKS.pl	/^sub create_graph{$/;"	s
+create_graph	THE_LABYRINTH.pl	/^sub create_graph {$/;"	s
+create_matrix	RAY_OF_LIGHT.pl	/^sub create_matrix {$/;"	s
+deep	TEXT_DOLLAR.pl	/^sub deep {$/;"	s
+deep	WORD_SEARCH.pl	/^sub deep {$/;"	s
+delete_row	MARS_NETWORKS.pl	/^sub delete_row {$/;"	s
+dijkstra	THE_LABYRINTH.pl	/^sub dijkstra{$/;"	s
+dist	CLOSEST_PAIR.pl	/^sub dist {$/;"	s
+draw_way	THE_LABYRINTH.pl	/^sub draw_way {$/;"	s
+erase_row	COMPUTER_TERMINAL.pl	/^sub erase_row {$/;"	s
+eval_expr	PREFIX_EXPRESSIONS.pl	/^sub eval_expr{$/;"	s
+find_all	LEVENSHTEIN_DISTANCE.pl	/^sub find_all {$/;"	s
+find_final_string	STRING_SUBSTITUTION.pl	/^sub find_final_string {$/;"	s
+find_final_string	STRING_SUBSTITUTION1.pl	/^sub find_final_string {$/;"	s
+find_initial_trajectory	RAY_OF_LIGHT.pl	/^sub find_initial_trajectory {$/;"	s
+find_input_point	RAY_OF_LIGHT.pl	/^sub find_input_point {$/;"	s
+find_max_pack	PACKAGE_PROBLEM1.pl	/^sub find_max_pack {$/;"	s
+get_XY	THE_LABYRINTH.pl	/^sub get_XY {$/;"	s
+get_arr	LONGEST_COMMON_SUBSEQUENCE.pl	/^sub get_arr{$/;"	s
+get_common	LONGEST_COMMON_SUBSEQUENCE.pl	/^sub get_common {$/;"	s
+get_indexes	PACKAGE_PROBLEM.pl	/^sub get_indexes {$/;"	s
+get_min	MARS_NETWORKS.pl	/^sub get_min {$/;"	s
+in_corner	RAY_OF_LIGHT.pl	/^sub in_corner {$/;"	s
+in_room	RAY_OF_LIGHT.pl	/^sub in_room {$/;"	s
+input	WORD_SEARCH.pl	/^sub input {$/;"	s
+is_contain	FIND_MIN.pl	/^sub is_contain {$/;"	s
+is_even_primes	PALINDROMIC_RANGES.pl	/^sub is_even_primes{$/;"	s
+is_palindrom	PALINDROMIC_RANGES.pl	/^sub is_palindrom{$/;"	s
+is_ugly	UGLY_NUMBERS.pl	/^sub is_ugly {$/;"	s
+log10	TEXT_DOLLAR.pl	/^sub log10 {$/;"	s
+max	LONGEST_COMMON_SUBSEQUENCE.pl	/^sub max {$/;"	s
+min	CLOSEST_PAIR.pl	/^sub min {$/;"	s
+min	LEVENSHTEIN_DISTANCE.pl	/^sub min {$/;"	s
+min	MINIMUM_PATH_SUM.pl	/^sub min {$/;"	s
+next_position	RAY_OF_LIGHT.pl	/^sub next_position {$/;"	s
+pack2	PACKAGE_PROBLEM.pl	/^sub pack2 {$/;"	s
+prim_alg	MARS_NETWORKS.pl	/^sub prim_alg {$/;"	s
+reflect_horisontally	RAY_OF_LIGHT.pl	/^sub reflect_horisontally {$/;"	s
+reflect_vertically	RAY_OF_LIGHT.pl	/^sub reflect_vertically {$/;"	s
+reverse_trajectory	RAY_OF_LIGHT.pl	/^sub reverse_trajectory {$/;"	s
+set_new_element	RAY_OF_LIGHT.pl	/^sub set_new_element {$/;"	s
+shift_row	COMPUTER_TERMINAL.pl	/^sub shift_row {$/;"	s
+show_arr	PACKAGE_PROBLEM1.pl	/^sub show_arr {$/;"	s
+show_matrix	COMPUTER_TERMINAL.pl	/^sub show_matrix {$/;"	s
+show_matrix	RAY_OF_LIGHT.pl	/^sub show_matrix {$/;"	s
+show_matrix1	RAY_OF_LIGHT.pl	/^sub show_matrix1 {$/;"	s
+show_maze	THE_LABYRINTH.pl	/^sub show_maze {$/;"	s
+sort_x	CLOSEST_PAIR.pl	/^sub sort_x {$/;"	s
+sort_y	CLOSEST_PAIR.pl	/^sub sort_y {$/;"	s
+spread_light	RAY_OF_LIGHT.pl	/^sub spread_light {$/;"	s
+str_compare	STRING_SEARCHING.pl	/^sub str_compare {$/;"	s
+stripClosest	CLOSEST_PAIR.pl	/^sub stripClosest {$/;"	s
