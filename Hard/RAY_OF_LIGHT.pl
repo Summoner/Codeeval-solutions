@@ -36,6 +36,12 @@ $trajectories->{DN_L} = 1;
 $trajectories->{UP_R} = 2;
 $trajectories->{DN_R} = 3;
 
+my $left_bound = 0;
+my $upper_bound = 0;
+my $down_bound = 9;
+my $right_bound = 9;
+my $light_limit = 20;
+
 foreach my $arr ( @list ) {
 
     my $matrix = [];
@@ -54,7 +60,7 @@ sub spread_light {
     my $ray = {};
     $ray->{position} = find_input_point($matrix);
     $ray->{trajectory} = find_initial_trajectory($matrix,$ray->{position});
-    $ray->{light_power} = 20;
+    $ray->{light_power} = $light_limit;
 
     push @$rays, $ray;
 
@@ -86,25 +92,25 @@ sub _spread_light {
 
             unless (in_corner( $next_position ) ){
 
-                if ( $next_position->{j} == 0 ){
+                if ( $next_position->{j} == $left_bound ){
 
                     $i = $next_position->{i};
                     $j = $next_position->{j} +1;
                     $trajectory = reflect_vertically( $ray->{trajectory} );
 
-                } elsif ( $next_position->{j} == 9 ){
+                } elsif ( $next_position->{j} == $right_bound ){
 
                     $i = $next_position->{i};
                     $j = $next_position->{j} -1;
                     $trajectory = reflect_vertically( $ray->{trajectory} );
 
-                }elsif ( $next_position->{i} == 0 ){
+                }elsif ( $next_position->{i} == $upper_bound ){
 
                     $i = $next_position->{i}+1;
                     $j = $next_position->{j};
                     $trajectory = reflect_horisontally( $ray->{trajectory} );
 
-                } if ( $next_position->{i} == 9 ){
+                } if ( $next_position->{i} == $down_bound ){
 
                     $i = $next_position->{i} - 1;
                     $j = $next_position->{j};
@@ -161,7 +167,6 @@ sub _spread_light {
                 push @$new_rays, $new_ray;
                 set_new_element($next_position,$ray->{trajectory},$matrix);
         }
-
 
         foreach my $ray ( @$new_rays ) {
 
@@ -247,17 +252,17 @@ sub reflect_vertically {
 sub in_corner {
     my	( $position )	= @_;
 
-    return 1 if ( $position->{i} == 0 && $position->{j} == 0 ||
-                  $position->{i} == 0 && $position->{j} == 9 ||
-                  $position->{i} == 9 && $position->{j} == 0 ||
-                  $position->{i} == 9 && $position->{j} == 9 );
+    return 1 if ( $position->{i} == $upper_bound && $position->{j} == $left_bound ||
+                  $position->{i} == $upper_bound && $position->{j} == $right_bound ||
+                  $position->{i} == $down_bound && $position->{j} == $left_bound ||
+                  $position->{i} == $down_bound && $position->{j} == $down_bound );
     return 0;
 } ## --- end sub in_corner
 
 sub in_room {
     my	( $position )	= @_;
 
-    return 0 if ( $position->{i} < 0 || $position->{i} > 9 ||  $position->{j} < 0 ||  $position->{j} > 9 );
+    return 0 if ( $position->{i} < $upper_bound || $position->{i} > $down_bound ||  $position->{j} < $left_bound ||  $position->{j} > $right_bound );
     return 1;
 } ## --- end sub in_room
 
@@ -289,17 +294,17 @@ sub next_position {
 sub find_initial_trajectory {
     my	( $matrix,$point )	= @_;
 
-   return $trajectories->{DN_L} if ( $point->{i} == 0 && $matrix->[$point->{i}]->[$point->{j}] eq $elements->{LIGHT_FORWARD} );
-   return $trajectories->{DN_R} if ( $point->{i} == 0 && $matrix->[$point->{i}]->[$point->{j}] eq $elements->{LIGHT_BACK} );
+   return $trajectories->{DN_L} if ( $point->{i} == $upper_bound && $matrix->[$point->{i}]->[$point->{j}] eq $elements->{LIGHT_FORWARD} );
+   return $trajectories->{DN_R} if ( $point->{i} == $upper_bound && $matrix->[$point->{i}]->[$point->{j}] eq $elements->{LIGHT_BACK} );
 
-   return $trajectories->{UP_R} if ( $point->{i} == 9 && $matrix->[$point->{i}]->[$point->{j}] eq $elements->{LIGHT_FORWARD} );
-   return $trajectories->{UP_L} if ( $point->{i} == 9 && $matrix->[$point->{i}]->[$point->{j}] eq $elements->{LIGHT_BACK} );
+   return $trajectories->{UP_R} if ( $point->{i} == $down_bound && $matrix->[$point->{i}]->[$point->{j}] eq $elements->{LIGHT_FORWARD} );
+   return $trajectories->{UP_L} if ( $point->{i} == $down_bound && $matrix->[$point->{i}]->[$point->{j}] eq $elements->{LIGHT_BACK} );
 
-   return $trajectories->{UP_R} if ( $point->{j} == 0 && $matrix->[$point->{i}]->[$point->{j}] eq $elements->{LIGHT_FORWARD} );
-   return $trajectories->{DN_R} if ( $point->{j} == 0 && $matrix->[$point->{i}]->[$point->{j}] eq $elements->{LIGHT_BACK} );
+   return $trajectories->{UP_R} if ( $point->{j} == $left_bound && $matrix->[$point->{i}]->[$point->{j}] eq $elements->{LIGHT_FORWARD} );
+   return $trajectories->{DN_R} if ( $point->{j} == $left_bound && $matrix->[$point->{i}]->[$point->{j}] eq $elements->{LIGHT_BACK} );
 
-   return $trajectories->{DN_L} if ( $point->{j} == 9 && $matrix->[$point->{i}]->[$point->{j}] eq $elements->{LIGHT_FORWARD} );
-   return $trajectories->{UP_L} if ( $point->{j} == 9 && $matrix->[$point->{i}]->[$point->{j}] eq $elements->{LIGHT_BACK} );
+   return $trajectories->{DN_L} if ( $point->{j} == $right_bound && $matrix->[$point->{i}]->[$point->{j}] eq $elements->{LIGHT_FORWARD} );
+   return $trajectories->{UP_L} if ( $point->{j} == $right_bound && $matrix->[$point->{i}]->[$point->{j}] eq $elements->{LIGHT_BACK} );
 
 } ## --- end sub find_initial_trajectory
 
@@ -307,33 +312,33 @@ sub find_input_point {
     my	( $matrix )	= @_;
 
     my $point = {};
-    for ( my $j = 0; $j < 10; $j++ ) {
+    for ( my $j = $left_bound; $j <= $right_bound; $j++ ) {
 
-        if ( $matrix->[0]->[$j] eq $elements->{LIGHT_FORWARD} || $matrix->[0]->[$j] eq $elements->{LIGHT_BACK} ){
+        if ( $matrix->[$upper_bound]->[$j] eq $elements->{LIGHT_FORWARD} || $matrix->[$upper_bound]->[$j] eq $elements->{LIGHT_BACK} ){
 
-                $point->{i} = 0;
+                $point->{i} = $upper_bound;
                 $point->{j} = $j;
                 return $point;
         }
-        if ( $matrix->[9]->[$j] eq $elements->{LIGHT_FORWARD} || $matrix->[9]->[$j] eq $elements->{LIGHT_BACK} ){
+        if ( $matrix->[$down_bound]->[$j] eq $elements->{LIGHT_FORWARD} || $matrix->[$down_bound]->[$j] eq $elements->{LIGHT_BACK} ){
 
-                $point->{i} = 9;
+                $point->{i} = $down_bound;
                 $point->{j} = $j;
                 return $point;
         }
     }
-    for ( my $i = 0; $i < 10; $i++ ) {
+    for ( my $i = $upper_bound; $i <= $down_bound; $i++ ) {
 
-        if ( $matrix->[$i]->[0] eq $elements->{LIGHT_FORWARD} || $matrix->[$i]->[0] eq $elements->{LIGHT_BACK} ){
+        if ( $matrix->[$i]->[$left_bound] eq $elements->{LIGHT_FORWARD} || $matrix->[$i]->[$left_bound] eq $elements->{LIGHT_BACK} ){
 
                 $point->{i} = $i;
-                $point->{j} = 0;
+                $point->{j} = $left_bound;
                 return $point;
         }
-        if ( $matrix->[$i]->[9] eq $elements->{LIGHT_FORWARD} || $matrix->[$i]->[9] eq $elements->{LIGHT_BACK} ){
+        if ( $matrix->[$i]->[$right_bound] eq $elements->{LIGHT_FORWARD} || $matrix->[$i]->[$right_bound] eq $elements->{LIGHT_BACK} ){
 
                 $point->{i} = $i;
-                $point->{j} = 0;
+                $point->{j} = $right_bound;
                 return $point;
         }
     }
@@ -345,7 +350,7 @@ sub create_matrix {
     while ( scalar @$arr > 0 ){
 
         my $temp = [];
-        for ( my $i = 0; $i < 10; $i++)  {
+        for ( my $i = $left_bound; $i <= $right_bound; $i++)  {
 
             push @$temp, shift @$arr;
         }
