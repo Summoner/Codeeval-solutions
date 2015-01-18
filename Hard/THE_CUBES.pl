@@ -127,33 +127,43 @@ sub find_shortest_path {
 
 sub bfs {
     my	( $start_point,$stop_point,$graph )	= @_;
-    $DB::single = 2;
+
     my $start = join ".",($start_point->{i},$start_point->{j});
     my $stop = join ".",($stop_point->{i},$stop_point->{j});
 
     my @vertices = ();
     push @vertices,$start;
+    my %parent = ();
     my %passed = ();
-    my $steps = 0;
-
+    $parent{$start} = -1;
+#$DB::single = 2;
     while ( scalar @vertices > 0 ){
 
-        my $v1 = pop @vertices;
+        my $v1 = shift @vertices;
         $passed{$v1} = 1;
 
         foreach my $v2 ( keys %{$graph->{$v1}} ) {
 
-            last if ( $v2 eq $stop );
             next if ( exists $passed{$v2} );
-            $steps++;
+            $parent{$v2} = $v1;
+            last if ( $v2 eq $stop );
             $passed{$v2} = 1;
             push @vertices,$v2;
         }
     }
-   return $steps + 1;
+ $DB::single = 2;
+   my $steps = get_steps( \%parent,$stop );
+   return $steps;
 } ## --- end sub bfs
 
 
+sub get_steps {
+    my	( $parent,$stop_point )	= @_;
+
+    return 1 if $parent->{ $stop_point } == -1;
+
+    return 1 + get_steps( $parent,$parent->{ $stop_point} );
+} ## --- end sub get_steps
 
 sub create_graph {
     my	( $current_level )	= @_;
