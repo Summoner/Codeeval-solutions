@@ -45,10 +45,10 @@ show_maze( $maze );
 
 sub dijkstra{
 
-	my ($graph,$start) = @_;
+    my ($graph,$start) = @_;
 
-	#if vertex in tree yet
-	my %intree = ();
+    #if vertex in tree yet
+    my %intree = ();
 	#distance from current vertex to start
 	my %distance = ();
 	#parent vertex of current vertex
@@ -65,39 +65,39 @@ sub dijkstra{
 	$distance{$start} = 0;
 	$v = $start;
 
-	foreach (keys %{$graph}){
+    foreach (keys %{$graph}){
 
-		$parent{$_} = -1;
-		# $distance{$_} = LONG_MAX;
+        $parent{$_} = -1;
+        # $distance{$_} = LONG_MAX;
 	}
 
-	while( !exists $intree{$v} ){
+    while( !exists $intree{$v} ){
 
-		$intree{$v} = 1;
-#		print "$v  $distance{$v}\n";
+        $intree{$v} = 1;
+        #print "$v  $distance{$v}\n";
 
-		foreach( keys %{$graph->{$v}} ){
+        foreach( keys %{$graph->{$v}} ){
 
-			$w = $_;
-			$weight = $graph->{$v}->{$w};
+            $w = $_;
+            $weight = $graph->{$v}->{$w};
 
-			if( ( !exists $distance{$w} ) || ( $distance{$w} > $distance{$v} + $weight ) ){
+            if( ( !exists $distance{$w} ) || ( $distance{$w} > $distance{$v} + $weight ) ){
 
-				$distance{$w} = $distance{$v} + $weight;
-				$parent{$w} = $v;
-			}
-		}
+                $distance{$w} = $distance{$v} + $weight;
+                $parent{$w} = $v;
+            }
+        }
 
-		$dist = undef;
+        $dist = undef;
 
-		foreach( keys %{$graph} ){
+        foreach( keys %{$graph} ){
 
-			if( ( !exists $intree{$_} ) && ( ( exists $distance{$_} && !defined $dist ) || ( exists $distance{$_} && $distance{$_} < $dist ) ) ){
+            if( ( !exists $intree{$_} ) && ( ( exists $distance{$_} && !defined $dist ) || ( exists $distance{$_} && $distance{$_} < $dist ) ) ){
 
-				$dist = $distance{$_};
-				$v = $_;
-			}
-		}
+                $dist = $distance{$_};
+                $v = $_;
+            }
+        }
 	}
 
 return \%parent;

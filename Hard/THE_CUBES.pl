@@ -1,4 +1,4 @@
-#!/usr/bin/perl -d
+#!/usr/bin/perl -w
 use strict;
 use warnings;
 use Data::Dumper;
@@ -26,8 +26,9 @@ foreach my $arr ( @list ) {
     my $maze = [];
 
     create_maze( $labirinth_size,\@matrix,$maze );
-    show_maze( $maze );
-    find_path( $maze,$labirinth_size );
+    #show_maze( $maze );
+    my $steps = find_path( $maze,$labirinth_size );
+    print "$steps\n";
 }
 
 sub find_path {
@@ -39,47 +40,30 @@ sub find_path {
     my $input_point = find_point( $current_level );
     my $output_point = find_point( $maze->[-1] );
 
-    print Dumper \$input_point;
-    print "******************\n";
-    print Dumper \$output_point;
+    #print Dumper \$input_point;
+    #print "******************\n";
+    #print Dumper \$output_point;
 
-    my $right_bound = $size - 1;
-    my $down_bound = $size - 1;
     my $steps = 0;
-
-    if ( $input_point->{i} == 0 ){
-
-        $input_point->{i}++;
-        $steps++;
-
-    }elsif ( $input_point->{i} == $right_bound ){
-
-        $input_point->{i}--;
-        $steps++;
-
-    }elsif ( $input_point->{j} == 0 ){
-
-        $input_point->{j}++;
-        $steps++;
-
-    }elsif ( $input_point->{j} == $down_bound ){
-
-        $input_point->{j}--;
-        $steps++;
-    }
-
+    my $level_steps = 0;
 
     while ( scalar @$maze > 0 ){
 
         $next_level = shift ( @$maze );
 
-        $steps += find_shortest_path( $input_point,$current_level,$next_level,undef );
+        ( $level_steps,$input_point ) = find_shortest_path( $input_point,$current_level,$next_level,undef );
 
+        return 0 if ( $level_steps == 0 );
         $current_level = $next_level;
-
+        #print "Steps at current level: $level_steps\n";
+        $steps += $level_steps;
+        $steps++;
     }
-    $steps += find_shortest_path( $input_point,$current_level,undef,$output_point );
+    ($level_steps) = find_shortest_path( $input_point,$current_level,undef,$output_point );
 
+    $steps += $level_steps;
+    $steps += 2;
+    return $steps;
 
 } ## --- end sub find_path
 
@@ -87,16 +71,17 @@ sub find_path {
 sub find_shortest_path {
     my	( $input_point,$current_level,$next_level,$output_point )	= @_;
 
+    my @points = ();
+    my $steps = 0;
+
     if ( defined $output_point ){
 
-
+        push @points,$output_point;
 
     }elsif ( defined $next_level ){
 
-        my @points = ();
         my $border = scalar @$current_level - 1;
-        my $steps = 0;
-
+       
         #Find points for next level
         for ( my $i=1;$i < scalar @{$next_level}-1;$i++ ) {
 
@@ -112,55 +97,83 @@ sub find_shortest_path {
                 }
             }
         }
-
-        my $graph = create_graph( $current_level );
-
-        $steps = bfs( $input_point,$points[0],$graph );
-        return $steps;
-
-
-
     }
+    return (0,undef) if ( scalar @points == 0 );
+    # $DB::single = 2;
+    my $graph = create_graph( $current_level );
+    #$DB::single = 2;
+    my $parent = shortest_path_dijkstra( $input_point,$graph );
 
+    #$DB::single = 2;
+    my $min_steps = undef;
+    my $save_point;
+    foreach my $point ( @points ) {
+
+        my $stop = join ".",($point->{i},$point->{j});
+        $steps = get_steps($parent,$stop);
+        if ( !defined $min_steps || $min_steps > $steps ){
+             
+            $min_steps = $steps;
+            $save_point = $point;
+        }
+    }
+    return ($min_steps,$save_point);
 } ## --- end sub find_shortest_path
 
 
-sub bfs {
-    my	( $start_point,$stop_point,$graph )	= @_;
+sub shortest_path_dijkstra {
+    my	( $start_point,$graph )	= @_;
 
     my $start = join ".",($start_point->{i},$start_point->{j});
-    my $stop = join ".",($stop_point->{i},$stop_point->{j});
-
-    my @vertices = ();
-    push @vertices,$start;
+    
+    my %intree = ();
     my %parent = ();
-    my %passed = ();
-    $parent{$start} = -1;
-#$DB::single = 2;
-    while ( scalar @vertices > 0 ){
+    my %distance = ();
 
-        my $v1 = shift @vertices;
-        $passed{$v1} = 1;
+    my $v = $start;
+    my $dist = undef;
+    my $w;
+    my $weight;
+    $distance{$v} = 0;
 
-        foreach my $v2 ( keys %{$graph->{$v1}} ) {
+    foreach my $vertex ( keys %{$graph} ) {
 
-            next if ( exists $passed{$v2} );
-            $parent{$v2} = $v1;
-            last if ( $v2 eq $stop );
-            $passed{$v2} = 1;
-            push @vertices,$v2;
+        $parent{$vertex} = -1;
+    }
+
+    while ( !exists $intree{$v} ){
+
+        $intree{$v} = 1;
+    
+        foreach my $w ( keys %{$graph->{$v}} ) {
+
+            $weight = $graph->{$v}->{$w};
+
+            if ( !defined $distance{$w} || $distance{$w} > $distance{$v} + $weight ){
+            
+                $distance{$w} = $distance{$v} + $weight;
+                $parent{$w} = $v;
+            }
+        }
+        $dist = undef;
+
+        foreach my $vertex ( %{$graph} ) {
+
+            if ( (!exists $intree{$vertex}) && ( (exists $distance{$vertex} && !defined $dist) || (exists $distance{$vertex} && $distance{$vertex} < $dist) ) ){
+            
+                $dist = $distance{$vertex};
+                $v = $vertex;
+            }
         }
     }
- $DB::single = 2;
-   my $steps = get_steps( \%parent,$stop );
-   return $steps;
-} ## --- end sub bfs
+return \%parent;
+} 
 
 
 sub get_steps {
     my	( $parent,$stop_point )	= @_;
 
-    return 1 if $parent->{ $stop_point } == -1;
+    return 0 if $parent->{ $stop_point } == -1;
 
     return 1 + get_steps( $parent,$parent->{ $stop_point} );
 } ## --- end sub get_steps
@@ -173,6 +186,7 @@ sub create_graph {
 
         for ( my $j=1; $j < $#{$current_level->[$i]}; $j++ ) {
 
+            next if ( $current_level->[$i]->[$j] eq "*" );
             add_edge( $current_level,$graph,$i,$j,$i-1,$j );
             add_edge( $current_level,$graph,$i,$j,$i+1,$j );
             add_edge( $current_level,$graph,$i,$j,$i,$j-1 );
@@ -209,14 +223,14 @@ sub find_point {
 
         if ( $matrix->[$upper_bound]->[$j] eq " " ){
 
-            $point->{i} = $upper_bound;
+            $point->{i} = $upper_bound+1;
             $point->{j} = $j;
             return $point;
         }
 
         if ( $matrix->[$down_bound]->[$j] eq " " ){
 
-            $point->{i} = $down_bound;
+            $point->{i} = $down_bound-1;
             $point->{j} = $j;
             return $point;
         }
@@ -227,14 +241,14 @@ sub find_point {
         if ( $matrix->[$i]->[$left_bound] eq " " ){
 
             $point->{i} = $i;
-            $point->{j} = $left_bound;
+            $point->{j} = $left_bound+1;
             return $point;
         }
 
         if ( $matrix->[$i]->[$right_bound] eq " " ){
 
             $point->{i} = $i;
-            $point->{j} = $down_bound;
+            $point->{j} = $right_bound-1;
             return $point;
         }
     }
