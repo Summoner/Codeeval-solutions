@@ -27,105 +27,32 @@ foreach my $arr ( @list ) {
 
     create_maze( $labirinth_size,\@matrix,$maze );
     #show_maze( $maze );
-    my $steps = find_path( $maze,$labirinth_size );
-    print "$steps\n";
+    find_path( $maze,$labirinth_size );
+    #print "$steps\n";
 }
 
 sub find_path {
     my	( $maze, $size )	= @_;
     # $DB::single = 2;
 
-    my $current_level = shift @$maze;
-    my $next_level;
-    my $input_point = find_point( $current_level );
+    my $input_point = find_point( $maze->[0] );
     my $output_point = find_point( $maze->[-1] );
 
-    #print Dumper \$input_point;
-    #print "******************\n";
-    #print Dumper \$output_point;
-
-    my $steps = 0;
-    my $level_steps = 0;
-
-    while ( scalar @$maze > 0 ){
-
-        $next_level = shift ( @$maze );
-
-        ( $level_steps,$input_point ) = find_shortest_path( $input_point,$current_level,$next_level,undef );
-
-        return 0 if ( $level_steps == 0 );
-        $current_level = $next_level;
-        #print "Steps at current level: $level_steps\n";
-        $steps += $level_steps;
-        $steps++;
-    }
-    ($level_steps) = find_shortest_path( $input_point,$current_level,undef,$output_point );
-
-    $steps += $level_steps;
-    $steps += 2;
-    return $steps;
+    print Dumper \$input_point;
+    print "******************\n";
+    print Dumper \$output_point;
+    print "******************\n";
+    my $graph = create_graph( $maze );
+    print Dumper \$graph;
 
 } ## --- end sub find_path
-
-
-sub find_shortest_path {
-    my	( $input_point,$current_level,$next_level,$output_point )	= @_;
-
-    my @points = ();
-    my $steps = 0;
-
-    if ( defined $output_point ){
-
-        push @points,$output_point;
-
-    }elsif ( defined $next_level ){
-
-        my $border = scalar @$current_level - 1;
-       
-        #Find points for next level
-        for ( my $i=1;$i < scalar @{$next_level}-1;$i++ ) {
-
-            for ( my $j=1;$j <= scalar @{$next_level->[$i]}-1;$j++ ) {
-
-                if ( $next_level->[$i]->[$j] eq "o" ){
-
-                    my $next_point = {};
-                    $next_point->{i} = $i;
-                    $next_point->{j} = $j;
-
-                    push @points,$next_point;
-                }
-            }
-        }
-    }
-    return (0,undef) if ( scalar @points == 0 );
-    # $DB::single = 2;
-    my $graph = create_graph( $current_level );
-    #$DB::single = 2;
-    my $parent = shortest_path_dijkstra( $input_point,$graph );
-
-    #$DB::single = 2;
-    my $min_steps = undef;
-    my $save_point;
-    foreach my $point ( @points ) {
-
-        my $stop = join ".",($point->{i},$point->{j});
-        $steps = get_steps($parent,$stop);
-        if ( !defined $min_steps || $min_steps > $steps ){
-             
-            $min_steps = $steps;
-            $save_point = $point;
-        }
-    }
-    return ($min_steps,$save_point);
-} ## --- end sub find_shortest_path
 
 
 sub shortest_path_dijkstra {
     my	( $start_point,$graph )	= @_;
 
     my $start = join ".",($start_point->{i},$start_point->{j});
-    
+
     my %intree = ();
     my %parent = ();
     my %distance = ();
@@ -144,13 +71,13 @@ sub shortest_path_dijkstra {
     while ( !exists $intree{$v} ){
 
         $intree{$v} = 1;
-    
+
         foreach my $w ( keys %{$graph->{$v}} ) {
 
             $weight = $graph->{$v}->{$w};
 
             if ( !defined $distance{$w} || $distance{$w} > $distance{$v} + $weight ){
-            
+
                 $distance{$w} = $distance{$v} + $weight;
                 $parent{$w} = $v;
             }
@@ -160,14 +87,14 @@ sub shortest_path_dijkstra {
         foreach my $vertex ( %{$graph} ) {
 
             if ( (!exists $intree{$vertex}) && ( (exists $distance{$vertex} && !defined $dist) || (exists $distance{$vertex} && $distance{$vertex} < $dist) ) ){
-            
+
                 $dist = $distance{$vertex};
                 $v = $vertex;
             }
         }
     }
 return \%parent;
-} 
+}
 
 
 sub get_steps {
@@ -179,33 +106,54 @@ sub get_steps {
 } ## --- end sub get_steps
 
 sub create_graph {
-    my	( $current_level )	= @_;
+    my	( $maze )	= @_;
 
     my $graph = {};
-    for ( my $i=1; $i < $#{$current_level}; $i++ ) {
+    for ( my $level=0; $level <= $#{$maze}; $level++ ) {
 
-        for ( my $j=1; $j < $#{$current_level->[$i]}; $j++ ) {
+        for ( my $i=1; $i < $#{$maze->[$level]}; $i++ ) {
 
-            next if ( $current_level->[$i]->[$j] eq "*" );
-            add_edge( $current_level,$graph,$i,$j,$i-1,$j );
-            add_edge( $current_level,$graph,$i,$j,$i+1,$j );
-            add_edge( $current_level,$graph,$i,$j,$i,$j-1 );
-            add_edge( $current_level,$graph,$i,$j,$i,$j+1 );
+            for ( my $j = 1; $j < $#{$maze->[$level]->[$i]}; $j++ ){
+
+                next if ( $maze->[$level]->[$i]->[$j] eq "*" );
+                add_edge( $maze,$level,$graph,$i,$j );
+            }
         }
     }
     return $graph;
 } ## --- end sub create_graph
 
 sub add_edge {
-    my	( $current_level,$graph,$i1,$j1,$i2,$j2 )	= @_;
+    my	( $maze,$level,$graph,$i,$j )	= @_;
 
-    #return if ( $i2 <0 || $j2 <0 || $i2 > $#{ $current_level } || $j2 > $#{ $current_level->[$i2] } );
-    return if ( $current_level->[$i2]->[$j2] eq "*" );
+    my $vertice1 = join ".",($level,$i,$j);
 
-    my $vertice1 = join ".",($i1,$j1);
-    my $vertice2 = join ".",($i2,$j2);
+    if ( $maze->[$level]->[$i]->[$j+1] ne "*" ){
 
-    $graph->{$vertice1}->{$vertice2} = 1;
+        my $vertice2 = join ".",($level,$i,$j+1);
+        $graph->{$vertice1}->{$vertice2} = 1;
+    }
+    if ( $maze->[$level]->[$i]->[$j-1] ne "*" ){
+
+        my $vertice2 = join ".",($level,$i,$j-1);
+        $graph->{$vertice1}->{$vertice2} = 1;
+    }
+    if ( $maze->[$level]->[$i-1]->[$j] ne "*" ){
+
+        my $vertice2 = join ".",($level,$i-1,$j);
+        $graph->{$vertice1}->{$vertice2} = 1;
+    }
+    if ( $maze->[$level]->[$i+1]->[$j] ne "*" ){
+
+        my $vertice2 = join ".",($level,$i+1,$j);
+        $graph->{$vertice1}->{$vertice2} = 1;
+    }
+    if ( $maze->[$level]->[$i]->[$j] eq "o" ){
+
+        my $vertice2 = join ".",($level-1,$i,$j);
+        $graph->{$vertice1}->{$vertice2} = 1;
+        $graph->{$vertice2}->{$vertice1} = 1;
+    }
 } ## --- end sub add_edge
 
 sub find_point {
@@ -304,7 +252,6 @@ sub create_maze {
         $levels--;
     }
 } ## --- end sub calc
-
 
 sub show_maze {
     my	( $maze )	= @_;
