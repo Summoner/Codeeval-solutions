@@ -36,7 +36,11 @@ sub find_path {
     # $DB::single = 2;
 
     my $input_point = find_point( $maze->[0] );
-    my $output_point = find_point( $maze->[-1] );
+       $input_point->{level} = 0;
+
+    my $output_point = find_point( $maze->[$size-1] );
+       $output_point->{level} = $size - 1; 
+
 
     print Dumper \$input_point;
     print "******************\n";
@@ -45,16 +49,19 @@ sub find_path {
     my $graph = create_graph( $maze );
     print Dumper \$graph;
 
+    my $distances = shortest_path_dijkstra( $input_point,$graph );
+
+    print Dumper \$distances;
+
 } ## --- end sub find_path
 
 
 sub shortest_path_dijkstra {
     my	( $start_point,$graph )	= @_;
 
-    my $start = join ".",($start_point->{i},$start_point->{j});
+    my $start = join ".",($start_point->{level},$start_point->{i},$start_point->{j});
 
     my %intree = ();
-    my %parent = ();
     my %distance = ();
 
     my $v = $start;
@@ -62,11 +69,6 @@ sub shortest_path_dijkstra {
     my $w;
     my $weight;
     $distance{$v} = 0;
-
-    foreach my $vertex ( keys %{$graph} ) {
-
-        $parent{$vertex} = -1;
-    }
 
     while ( !exists $intree{$v} ){
 
@@ -78,8 +80,7 @@ sub shortest_path_dijkstra {
 
             if ( !defined $distance{$w} || $distance{$w} > $distance{$v} + $weight ){
 
-                $distance{$w} = $distance{$v} + $weight;
-                $parent{$w} = $v;
+                $distance{$w} = $distance{$v} + $weight;                
             }
         }
         $dist = undef;
@@ -93,7 +94,7 @@ sub shortest_path_dijkstra {
             }
         }
     }
-return \%parent;
+return \%distance;
 }
 
 
@@ -157,26 +158,26 @@ sub add_edge {
 } ## --- end sub add_edge
 
 sub find_point {
-    my	( $matrix )	= @_;
+    my	( $level )	= @_;
 
     my $left_bound = 0;
-    my $right_bound = scalar @{$matrix->[0]}-1;
+    my $right_bound = scalar @{$level->[0]}-1;
 
     my $upper_bound = 0;
-    my $down_bound = scalar @{$matrix}-1;
+    my $down_bound = scalar @{$level}-1;
 
     my $point = {};
 
     for ( my $j=$left_bound; $j <= $right_bound; $j++ ) {
 
-        if ( $matrix->[$upper_bound]->[$j] eq " " ){
+        if ( $level->[$upper_bound]->[$j] eq " " ){
 
             $point->{i} = $upper_bound+1;
             $point->{j} = $j;
             return $point;
         }
 
-        if ( $matrix->[$down_bound]->[$j] eq " " ){
+        if ( $level->[$down_bound]->[$j] eq " " ){
 
             $point->{i} = $down_bound-1;
             $point->{j} = $j;
@@ -186,14 +187,14 @@ sub find_point {
 
     for ( my $i=$upper_bound; $i <= $down_bound; $i++ ) {
 
-        if ( $matrix->[$i]->[$left_bound] eq " " ){
+        if ( $level->[$i]->[$left_bound] eq " " ){
 
             $point->{i} = $i;
             $point->{j} = $left_bound+1;
             return $point;
         }
 
-        if ( $matrix->[$i]->[$right_bound] eq " " ){
+        if ( $level->[$i]->[$right_bound] eq " " ){
 
             $point->{i} = $i;
             $point->{j} = $right_bound-1;
