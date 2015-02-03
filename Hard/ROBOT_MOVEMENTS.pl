@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl -d
 use strict;
 use warnings;
 use Data::Dumper;
