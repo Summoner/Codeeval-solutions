@@ -25,15 +25,16 @@ close $input;
 
 
 foreach my $arr ( @list ) {
-my $graph = {};
+
+    my $graph = {};
 
     foreach my $elem ( @$arr ) {
 
         my $graph_part = [split /,/,$elem];
         create_graph($graph,$graph_part);
     }
- my ( $initial_matching,$initial_matching_reversed,$unmatched_employees,$unmatched_places ) = find_initial_matching( $graph );
-print  max_matching_alg($graph, $initial_matching,$initial_matching_reversed,$unmatched_employees,$unmatched_places ),"\n";
+
+    print  max_matching_alg( $graph ),"\n";
 }
 
 sub create_graph {
@@ -48,10 +49,12 @@ sub create_graph {
 } ## --- end sub create_graph
 
 sub max_matching_alg {
-    my	( $possibility_matching, $initial_matching,$initial_matching_reversed,$unmatched_employees,$unmatched_places ) = @_;
+    my	( $possibility_matching ) = @_;
+
+    my ( $initial_matching,$initial_matching_reversed,$unmatched_employees,$unmatched_places ) = find_initial_matching( $possibility_matching );
 
     #We don't have any unmatched employee
-    return "Yes" if ( scalar keys %$unmatched_employees == 0 ); 
+    return "Yes" if ( scalar keys %$unmatched_employees == 0 );
 
     my $is_matched = 1;
     my $alternate_path = {};
@@ -62,24 +65,28 @@ sub max_matching_alg {
 
         #If we haven't way to change initial matching between employees and places
         if ( scalar keys %$alternate_path == 0 ){
-        
+
             $is_matched = 0;
             last;
         }
 
-        # print "Alternate path *********************************************\n";
+        #print "Alternate path *********************************************\n";
         #print Dumper \$alternate_path;
-    
-        #print "Merged path ************************************************\n";
-        $initial_matching = merge_paths( $initial_matching,$alternate_path );
-        $initial_matching_reversed = { reverse %$initial_matching } ;
-        #print Dumper \$initial_matching;
+
+        if ( keys %$unmatched_employees > 1 ){
+
+            #print "Merged path ************************************************\n";
+            ( $initial_matching,$initial_matching_reversed,$unmatched_places ) = merge_paths( $initial_matching,$alternate_path,$unmatched_places );
+
+            #print Dumper \$initial_matching;
+        }
     }
+
     if ( $is_matched ){
-    
+
         return "Yes";
     }else{
-    
+
         return "No";
     }
 
@@ -183,16 +190,17 @@ sub find_initial_matching {
 
 
 sub merge_paths {
-    my	( $initial_path,$suggested_path )	= @_;
+    my	( $initial_path,$suggested_path,$unmatched_places )	= @_;
 
-    
-#    foreach my $employee ( keys %$suggested_path ) {
+   my $new_initial_path = { %$initial_path,%$suggested_path };
+   my $new_initial_path_reversed = { reverse %$new_initial_path };
 
-    #       next unless ( exists $initial_path->{$employee} );
-    #   $initial_path->{$employee} = $suggested_path->{$employee};
-#    }
+   foreach my $place ( keys %$new_initial_path_reversed ) {
 
-    return { %$initial_path,%$suggested_path };
+       delete $unmatched_places->{$place} if exists ( $new_initial_path_reversed->{$place} );
+   }
+
+   return ( $new_initial_path,$new_initial_path_reversed,$unmatched_places );
 } ## --- end sub merge_paths
 my $t1 = new Benchmark;
 my $td = timediff($t1, $t0);
