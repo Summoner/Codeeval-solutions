@@ -6,52 +6,45 @@ use Benchmark;
 
 my $t0 = new Benchmark;
 
-  open my $input, "/home/fanatic/Summoner/Codeeval-solutions/input.txt" || die "Can't open file: $!\n";
+open my $input, "/home/fanatic/Summoner/Codeeval-solutions/input.txt" || die "Can't open file: $!\n";
  #open my $result, ">D:\\Perl\\output1.txt" || die "Can't open file: $!\n";
 
-my @list = ();
+my $count = 0;
+my $coord = [];
 
 	while(<$input>){
     	chomp;
-	    push @list, $_;
+	    if ( $count == 0 ){
+
+            if ( $_ == 0 ){
+
+                solution( $coord );
+                $coord = [];
+
+            }else{
+
+                $count = $_;
+            }
+
+        }else{
+
+            push @$coord, [split /\s+/,$_];
+            $count--;
+        }
 	}
 close $input;
 
-
-my $count = 0;
-my $all = [];
-my $coord = [];
-foreach my $element ( @list ) {
-
-    if ( $count == 0 ){
-
-        push @$all,$coord;
-        $coord = [];
-        last if ( $element == 0 );
-        $count = $element;
-
-    }else{
-
-        push @$coord, [split /\s+/,$element];
-        $count--;
-    }
-
-}
-shift @$all;
-
-foreach my $koord ( @$all ) {
+sub solution {
+    my	( $coord )	= @_;
 
     my @points = ();
-    my $count = 0;
+    foreach my $pair ( @$coord ) {
 
-    foreach my $pair ( @$koord ) {
+        my $point = {};
 
-        my $p = {};
-
-        $p->{x} = $pair->[0];
-        $p->{y} = $pair->[1];
-        push @points,$p;
-        $count++;
+        $point->{x} = $pair->[0];
+        $point->{y} = $pair->[1];
+        push @points,$point;
     }
 
     print Closest(\@points),"\n";
@@ -63,7 +56,6 @@ sub Closest {
     my $pointsX = [];
     my $pointsY = [];
 
-
     for ( my $i=0;$i < scalar @$points; $i++ ) {
 
         $pointsX->[$i] = $points->[$i];
@@ -72,8 +64,8 @@ sub Closest {
 
     sort_x( $pointsX );
     sort_y( $pointsY );
-
-     my $result = ClosestUtil( $pointsX,$pointsY,scalar @$points );
+    #$DB::single = 2;
+    my $result = ClosestUtil( $pointsX,$pointsY,scalar @$points );
 
     if ( $result >= 10000 ){
 
@@ -103,8 +95,7 @@ sub ClosestUtil {
     my $li = 0;
     my $ri = 0;
 
-
-    for ( my $i=0;$i < $n;$i++ ) {
+    for ( my $i=0; $i < $n; $i++ ) {
 
         if ( $Py->[$i]->{x} <= $midPoint->{x} ){
 
@@ -145,9 +136,10 @@ sub stripClosest {
 
         for ( my $j= $i+1;$j < $size && ( $strip->[$j]->{y} - $strip->[$i]->{y} ) < $min; $j++ ) {
 
-            if ( dist( $strip->[$i],$strip->[$j]) < $min ){
+            my $distance = dist( $strip->[$i],$strip->[$j]);
+            if ( $distance < $min ){
 
-                $min = dist( $strip->[$i],$strip->[$j] );
+                $min = $distance;
             }
         }
     }
@@ -168,16 +160,15 @@ sub brute_force {
 
     for ( my $i=0; $i < scalar @$points; $i++ ) {
 
-
         for ( my $j=$i+1; $j < scalar @$points; $j++ ) {
 
-            if ( !defined $min || dist( $points->[$i],$points->[$j]) < $min ){
+            my $distance = dist( $points->[$i],$points->[$j]);
+            if ( !defined $min || $distance < $min ){
 
-                $min = dist( $points->[$i],$points->[$j]);
+                $min = $distance;
             }
         }
     }
-
     return $min;
 } ## --- end sub brute_force
 
@@ -189,19 +180,19 @@ sub dist {
 
 sub sort_x {
     my	( $points )	= @_;
-    my $result = [];
-     @$result = sort { $a->{x} <=> $b->{x} } @$points;
-    return $result;
+
+    @$points = sort { $a->{x} <=> $b->{x} } @$points;
+
 } ## --- end sub sort_x
 
 sub sort_y {
     my	( $points )	= @_;
-    my $result = [];
-     @$result = sort { $a->{y} <=> $b->{y} } @$points;
-    return $result;
+
+    @$points = sort { $a->{y} <=> $b->{y} } @$points;
+
 } ## --- end sub sort_x
 
 
 my $t1 = new Benchmark;
 my $td = timediff($t1, $t0);
-:wprint "the code took:",timestr($td),"\n";
+print "the code took:",timestr($td),"\n";
