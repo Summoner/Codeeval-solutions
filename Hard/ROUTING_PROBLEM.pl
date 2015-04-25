@@ -139,27 +139,33 @@ sub convert{
     #my $input = "67.239.38.85/23";
     my ( $ip,$mask ) = split /\//,$input;
 
-    print "$ip -----> $mask\n";
+#    print "$ip -----> $mask\n";
     $mask = maskConvertToDec($mask);
     #print "$ip -----> $mask\n";
     $ip = ipConvertToBin($ip);
     $mask = ipConvertToBin($mask);
-    print "$ip -----> $mask\n";
+    #   print "$ip -----> $mask\n";
 
     ###########################################
     $ip = bin2dec($ip);
     $mask = bin2dec($mask);
     return $ip * $mask;
-    
+
     ##########################################
     #return [split //, $ip * $mask];
 } ## --- end sub calc
 
-sub bin2dec {
-    my	( $input )	= @_;
+sub bin2dec{
 
-    return unpack( "N",pack("B32",substr("0" x 32 . shift ,-32)));
-} ## --- end sub bin2dec
+    return oct("0b".shift);
+}
+
+
+#sub bin2dec {
+#    my	( $input )	= @_;
+
+#    return unpack( "N",pack("B32",substr("0" x 32 . shift ,-32)));
+#} ## --- end sub bin2dec
 
 sub maskConvertToDec {
     my	( $mask )	= @_;
@@ -173,9 +179,9 @@ sub maskConvertToDec {
 
 sub ipConvertToBin {
     my	( $ip )	= @_;
-    
+
     return join ("",map { substr( unpack("B32",pack("N",$_)),-8)}split(/\./,$ip));
-   
+
 } ## --- end sub ipConvertToBin
 
 sub dijkstra {
