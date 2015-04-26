@@ -24,16 +24,17 @@ my @list = ();
     }
 close $input;
 
-print Dumper \@list;
+#print Dumper \@list;
 
 
 
 foreach my $arr ( @list ) {
 
     my ($from,$to) = split /,/,$arr->[0];
-    my @routes = split /R\d+\=\[/,$arr->[1];
-
-    calc( $from,$to,\@routes );
+    my @routes = split ( /\s*R\d+\=\[/,$arr->[1] );
+    shift @routes;
+#print Dumper \@routes;
+    print calc( $from,$to,\@routes ),"\n";
 
 }
 
@@ -41,151 +42,199 @@ foreach my $arr ( @list ) {
 sub calc {
     my	( $from,$to,$routes )	= @_;
 
-    print "$from\n";
-    print "$to\n";
-    print join "",@$routes,"\n";
+    #print "$from\n";
+    #print "$to\n";
+    #print join "|",@$routes,"\n";
     my $graph = {};
-    createGraph( $graph,$routes );
+    my $nodes = [];
 
-    print Dumper \$graph;
-    return ;
+    createGraph( $graph,$routes,$nodes );
+    #print Dumper \$graph;
+    my ( $inputs,$outputs ) = formInputsOutputs( $nodes,$from,$to );
+    my $res = dijkstra( $graph,$inputs,$outputs );
 
+    if ( defined $res ){
+
+        return $res;
+
+    }else{
+
+        return "None";
+    }
 } ## --- end sub calc
 
 sub createGraph {
-    my	( $graph,$routes )	= @_;
+    my	( $graph,$routes,$nodes )	= @_;
+#$DB::single = 2;
 
-    my $nodes = [];
     for ( my $i = 0; $i <= $#{$routes}; $i++ ) {
 
         my @routePoints = split /,/,$routes->[$i];
-        addNodeSameBus( $i,\@routePoints,$graph,$nodes );
-        print Dumper \$nodes;
-        #addNodeDifferentBuses($graph,$nodes);
+        #       print Dumper \@routePoints;
+        addNodeSameBus( $i+1,\@routePoints,$graph,$nodes );
+        #print Dumper \$nodes;
     }
-    return ;
-} ## --- end sub createGraph
+    addNodeDifferentBuses($graph,$nodes);
 
+} ## --- end sub createGraph
 
 sub addNodeSameBus {
     my	( $busN,$routePoints,$graph,$nodes )	= @_;
+#$DB::single = 2;
 
+    my $part1 = join "",("bus",$busN);
     for ( my $i = 0; $i < $#{$routePoints}; $i++ ) {
 
-        my $node1 = join ".",($busN,$routePoints->[$i]);
-        my $node2 = join ".",($busN,$routePoints->[$i+1]);
+        my $part2 = join "",("stop",$routePoints->[$i]);
+        my $part3 = join "",("stop",$routePoints->[$i+1]);
+
+        my $node1 = join ".",($part1,$part2);
+        my $node2 = join ".",($part1,$part3);
 
         $graph->{$node1}->{$node2} = 7;
-        push @$nodes,$node1;
+        #push @$nodes,$node1;
         push @$nodes,$node2;
     }
 
-    my $node1 = join ".",($busN,$routePoints->[-1]);
-    my $node2 = join ".",($busN,$routePoints->[0]);
+    my $part2 = join "",("stop",$routePoints->[-1]);
+    my $part3 = join "",("stop",$routePoints->[0]);
 
-    $graph->{$node1}->{$node2} = 7;    
+    my $node1 = join ".",($part1,$part2);
+    my $node2 = join ".",($part1,$part3);
+
+    push @$nodes,$node2;
+    $graph->{$node1}->{$node2} = 7;
 } ## --- end sub addNodeSameBus
 
 sub addNodeDifferentBuses{
     my	( $graph,$nodes )	= @_;
-
+#$DB::single = 2;
     for ( my $i=0; $i < $#{$nodes}; $i++ ) {
 
-        my ($bus1,$stoP1) = split /./,$nodes->[$i];
+        my ($bus1,$stoP1) = split /\./,$nodes->[$i];
+
         for ( my $j = $i+1; $j <= $#{$nodes}; $j++ ) {
 
-            my ($bus2,$stoP2) = split /./,$nodes->[$j];
+            my ($bus2,$stoP2) = split /\./,$nodes->[$j];
 
-            next if ( $bus1 == $bus2 );
+            next if ( $bus1 eq $bus2 );
 
-            if ( $stoP1 == $stoP2 ){
+            if ( $stoP1 eq $stoP2 ){
 
                 my $node1 = $nodes->[$i];
                 my $node2 = $nodes->[$j];
 
                 $graph->{$node1}->{$node2} = 12;
+                $graph->{$node2}->{$node1} = 12;
             }
         }
     }
 } ## --- end sub addNodeDifferentBuses
 
+sub formInputsOutputs {
+    my	( $nodes,$inp,$outp )	= @_;
+
+    my $inputs = [];
+    my $outputs = [];
+
+    $inp = join "",("stop",$inp);
+    $outp = join "",("stop",$outp);
 
 
+    foreach my $node ( @$nodes ) {
 
-sub dijkstra {
-    my	( $graph,$startP,$stopP )	= @_;
-    #$DB::single = 2;
-    #place for store vertexes in multiways
-    my %used = ();
-    my $routes = [];
-    my $existRoute = 1;
+        my ($bus,$stop) = split /\./,$node;
+        if ( $stop eq $inp ){
 
-    while( $existRoute ){
+            push @$inputs,$node;
 
-        #Initialization before next route search
-        my %visited = ();
-        my %parent = ();
-        my %distances = ();
-        my $w = $startP;
-        $distances{$w} = 0;
-        my $distance = undef;
+        }elsif( $stop eq $outp ){
 
-        while (!exists $visited{$w} ){
-
-            $visited{$w} = 1;
-
-            foreach my $key ( keys %{$graph->{$w}} ) {
-
-                $distance = $graph->{$w}->{$key};
-                if ( !defined $distances{$key} || $distances{$key} > $distance + $distances{$w}){
-
-                    $distances{$key} = $distance + $distances{$w};
-                    $parent{$key} = $w;
-                }
-            }
-
-            $distance = undef;
-
-            foreach my $v ( keys %distances ) {
-
-                if ( (!defined $visited{$v}) && (!defined $used{$v}) && (!defined $distance || $distance > $distances{$v}) ){
-
-                    $distance = $distances{$v};
-                    $w = $v;
-                }
-            }
-        }
-
-        my $route = [];
-        my $p = $stopP;
-        push @$route,$p;
-
-        while( defined $parent{$p} && $p != $startP ){
-
-            $p = $parent{$p};
-            unshift @$route,$p;
-        }
-        if ( $startP != $route->[0] ){
-
-            $existRoute = 0;
-
-        }else{
-
-            push @$routes,$route;
-            for ( my $i = 1; $i < $#{$route}; $i++ ) {
-
-                $used{$route->[$i]}++;
-            }
+            push @$outputs,$node;
         }
     }
-    return [] if (scalar @$routes == 0);
-    my @sortedRoutes = sort { scalar @$a <=> scalar @$b } @$routes;
+    return ($inputs,$outputs);
+} ## --- end sub formInputsOutputs
 
-    my $routeSize = scalar @{$sortedRoutes[0]};
+sub dijkstra {
+    my	( $graph,$inputs,$outputs )	= @_;
 
-    my @resRoutes = grep { scalar @$_ <= $routeSize } @sortedRoutes;
+    my $resultMin = undef;
+    foreach my $startP ( @$inputs ) {
 
-    return \@resRoutes;
+        foreach my $stopP ( @$outputs ) {
+
+            my %visited = ();
+            my %parent = ();
+            my %distances = ();
+            my $w = $startP;
+            $distances{$w} = 0;
+            my $distance = undef;
+
+            while (!exists $visited{$w} ){
+
+                $visited{$w} = 1;
+
+                foreach my $key ( keys %{$graph->{$w}} ) {
+
+                    $distance = $graph->{$w}->{$key};
+                    if ( !defined $distances{$key} || $distances{$key} > $distance + $distances{$w}){
+
+                        $distances{$key} = $distance + $distances{$w};
+                        $parent{$key} = $w;
+                    }
+                }
+
+                $distance = undef;
+
+                foreach my $v ( keys %distances ) {
+
+                    if ( (!defined $visited{$v})  && (!defined $distance || $distance > $distances{$v}) ){
+
+                        $distance = $distances{$v};
+                        $w = $v;
+                    }
+                }
+            }
+#$DB::single = 2;
+            my $route = [];
+            my $currentMin = 0;
+            my $p = $stopP;
+            push @$route,$p;
+
+            while( defined $parent{$p} && $p ne $startP ){
+
+                $p = $parent{$p};
+                unshift @$route,$p;
+            }
+            unless ( $startP eq $route->[0] ){
+
+                next;
+            }
+
+            for ( my $i=0; $i < $#{$route}; $i++ ) {
+
+                $currentMin += $graph->{$route->[$i]}->{$route->[$i+1]};
+                #print "$currentMin\n";
+
+            }
+
+            if ( !defined $resultMin || $resultMin > $currentMin ){
+
+                $resultMin = $currentMin;
+            }
+            # print "################################################################\n";
+            #print $startP,"\n";
+            # print $stopP,"\n";
+            #print join " ",@$route,"\n";
+            #print Dumper \%parent;
+            #print $currentMin,"\n";
+            #print "################################################################\n";
+
+
+        }
+    }
+    return $resultMin;
 } ## --- end sub dijkstra
 
 
