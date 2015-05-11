@@ -24,6 +24,32 @@ close $input;
 
 
 
+sub calc {
+    my	( $eggs,$floors )	= @_;
+
+    my $matrix = [];
+
+    for ( my $i = 0; $i <= $eggs; $i++ ) {
+
+        for ( my $j = 0; $j <= $floors; $j++ ) {
+
+            $matrix->[$i]->[$j] = 0;
+        }
+    }
+    
+    for ( my $i = 1; $i <= $floors; $i++ ) {
+
+        $matrix->[1]->[$i] = $i;
+    }
+    for ( my $j = 1; $j <= $eggs; $j++ ) {
+
+        $matrix->[$j]->[1] = 1;
+    }
+
+
+
+    return ;
+} ## --- end sub calc
 
 
 my $t1 = new Benchmark;
