@@ -14,41 +14,41 @@ my @list = ();
 
 	while(<$input>){
     	chomp;
-
+       push @list, [split /\s+/,$_];
 	}
 close $input;
 
 
+foreach my $arr ( @list ) {
+
+    print calc( $arr->[0],$arr->[1] ),"\n";
+}
 
 
+sub count {
+    my	( $eggs,$dropsCount )	= @_;
 
+    return 0 if ( $eggs == 0 );
 
+    my $result = 0;
+    for ( my $i=0; $i < $dropsCount; $i++ ) {
+
+        $result += count($eggs - 1,$i) +1;
+    }
+    return $result;
+} ## --- end sub count
 
 sub calc {
     my	( $eggs,$floors )	= @_;
 
-    my $matrix = [];
+    my $dropsCount = 0;
+    while ( count( $eggs, $dropsCount ) < $floors ){
 
-    for ( my $i = 0; $i <= $eggs; $i++ ) {
+        $dropsCount++;
 
-        for ( my $j = 0; $j <= $floors; $j++ ) {
-
-            $matrix->[$i]->[$j] = 0;
-        }
     }
-    
-    for ( my $i = 1; $i <= $floors; $i++ ) {
+    return $dropsCount;
 
-        $matrix->[1]->[$i] = $i;
-    }
-    for ( my $j = 1; $j <= $eggs; $j++ ) {
-
-        $matrix->[$j]->[1] = 1;
-    }
-
-
-
-    return ;
 } ## --- end sub calc
 
 
