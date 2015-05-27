@@ -1,0 +1,57 @@
+70; (96.289565663600001, 4.0044008079599998)
+<?xml version='1.0' encoding='UTF-8'?>
+<kml xmlns='http://www.opengis.net/kml/2.2'>
+<Document>
+<name>Tomnod CrowdRank Export mh370_indian_ocean_2014-04-16-05-14</name>
+<open>1</open>
+<Style id='tag_type_44'>
+	<LabelStyle><color>FF0051ff</color><scale>0</scale></LabelStyle>
+	<IconStyle><Icon><href>http://www.tomnod.com/nod/api/icon/damage_destroyed/ff5100.png</href><scale>0.5</scale></Icon></IconStyle>
+</Style>
+<Style id='tag_type_10'>
+	<LabelStyle><color>FF693bff</color><scale>0</scale></LabelStyle>
+	<IconStyle><Icon><href>http://www.tomnod.com/nod/api/icon/damage_airport_destroyed/ff3b69.png</href><scale>0.5</scale></Icon></IconStyle>
+</Style>
+<Style id='tag_type_6'>
+	<LabelStyle><color>FFe62e81</color><scale>0</scale></LabelStyle>
+	<IconStyle><Icon><href>http://www.tomnod.com/nod/api/icon/product_type_map/812ee6.png</href><scale>0.5</scale></Icon></IconStyle>
+</Style>
+<Style id='tag_type_130'>
+	<LabelStyle><color>FF17dfe6</color><scale>0</scale></LabelStyle>
+	<IconStyle><Icon><href>http://www.tomnod.com/nod/api/icon/logistics_gas_station/e6df17.png</href><scale>0.5</scale></Icon></IconStyle>
+</Style>
+<Style id='overlay'><LineStyle><width>1.5</width><color>7d0000aa</color><mode>dashed</mode></LineStyle>
+<PolyStyle><color>7d0000aa</color></PolyStyle></Style>
+<Folder id='tag_44'>
+	<name>Raft</name>
+	<styleUrl>#tag_type_44</styleUrl>
+	<description>Life Raft
+CrowdRank calculated 2014-04-07 17:45:48.054005</description>
+	<visibility>1</visibility><open>0</open>
+<Placemark id='4437554'>
+		<name>Other ID 4437554</name><Snippet maxLines='0'></Snippet>
+		<type>Other</type>
+		<description><![CDATA[
+			<img src='https://s3.amazonaws.com/explorationlab/chips/61c78655273f03d846e25515b30c8f03.jpg' height=400 width=400><br/>
+			<table width=400><tr><td width=40%>CrowdRank: <b>100%</b><br/>Confirmation: <b>3</b> people<br/>
+			<td align='right' valign='bottom'>Image &copy; DigitalGlobe 2014<br><br><a href='http://tomnod.com/nod/challenge/mh370_indian_ocean/map/267538'>See this point on <img src='http://www.tomnod.com/nod/images/logo_small.png' width=100></a>
+		</tr></table>
+		]]></description>
+		<styleUrl>#tag_type_6</styleUrl>
+		<TimeStamp><when>2013-03-27 18:14:23.452092</when></TimeStamp>
+		<Point><coordinates>96.143478430900004,4.01696913695</coordinates></Point>
+	</Placemark>
+<Placemark id='4398192'>
+		<name>Other ID 4398192</name><Snippet maxLines='0'></Snippet>
+		<type>Other</type>
+		<description><![CDATA[
+			<img src='https://s3.amazonaws.com/explorationlab/chips/126fd0447420b58793d07c424c84f310.jpg' height=400 width=400><br/>
+			<table width=400><tr><td width=40%>CrowdRank: <b>100%</b><br/>Confirmation: <b>3</b> people<br/>
+			<td align='right' valign='bottom'>Image &copy; DigitalGlobe 2014<br><br><a href='http://tomnod.com/nod/challenge/mh370_indian_ocean/map/1085903'>See this point on <img src='http://www.tomnod.com/nod/images/logo_small.png' width=100></a>
+		</tr></table>
+		]]></description>
+		<styleUrl>#tag_type_6</styleUrl>
+		<TimeStamp><when>2014-03-27 18:14:23.452092</when></TimeStamp>
+		<Point><coordinates>96.199739494699998,4.00144844172</coordinates></Point>
+	</Placemark>
+
