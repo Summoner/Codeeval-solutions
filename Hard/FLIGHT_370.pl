@@ -13,7 +13,6 @@ sub new {
     return $self;
 } ## --- end sub new
 
-
 sub id {
     $_[0]->{id} = $_[1] if defined $_[1];$_[0]->{id};
 } ## --- end sub id
@@ -43,47 +42,8 @@ sub timeStamp {
 sub point {
     $_[0]->{point} = $_[1] if defined $_[1];$_[0]->{point};
 } ## --- end sub point
-1;
-
-package Folder;
-
-sub new {
-    my $class = shift;
-    my $self = {@_};
-    bless $self,$class;
-    return $self;
-} ## --- end sub new
-
-sub id {
-    $_[0]->{id} = $_[1] if defined $_[1];$_[0]->{id};
-} ## --- end sub id
-
-sub name {
-    $_[0]->{name} = $_[1] if defined $_[1];$_[0]->{name};
-} ## --- end sub name
-
-sub point1 {
-    $_[0]->{point1} = $_[1] if defined $_[1];$_[0]->{point1};
-} ## --- end sub point1
-
-sub point2 {
-    $_[0]->{point2} = $_[1] if defined $_[1];$_[0]->{point2};
-} ## --- end sub point2
-
-sub point3 {
-    $_[0]->{point3} = $_[1] if defined $_[1];$_[0]->{point3};
-} ## --- end sub point3
-
-sub point4 {
-    $_[0]->{point4} = $_[1] if defined $_[1];$_[0]->{point4};
-} ## --- end sub point4
-
-sub point5 {
-    $_[0]->{point5} = $_[1] if defined $_[1];$_[0]->{point5};
-} ## --- end sub point5
 
 1;
-
 package Point;
 
 sub new {
@@ -100,6 +60,7 @@ sub latitude {
 sub longtitude {
     $_[0]->{longtitude} = $_[1] if defined $_[1];$_[0]->{longtitude};
 } ## --- end sub longtitude
+
 1;
 use Data::Dumper;
 use Math::Trig;
@@ -107,11 +68,10 @@ use Benchmark;
 
 my $t0 = new Benchmark;
 
-  open my $input, "/home/fanatic/Summoner/Codeeval-solutions/input.kmz" || die "Can't open file: $!\n";
+ open my $input, "/home/fanatic/Summoner/Codeeval-solutions/input.kmz" || die "Can't open file: $!\n";
  #open my $result, ">D:\\Perl\\output1.txt" || die "Can't open file: $!\n";
 
 my @placemarks = ();
-my @folders = ();
 my @startData = ();
 
 my $idPlacemark = undef;
@@ -126,23 +86,7 @@ my $foldersInProcess = 0;
 my $placemarksInProcess = 0;
 my $regionsInProcess = 1;
 
-my $idFolder = undef;
-my $nameFolder = undef;
-my $longtitudeFolder1 = undef;
-my $lattitudeFolder1 = undef;
-my $longtitudeFolder2 = undef;
-my $lattitudeFolder2 = undef;
-my $longtitudeFolder3 = undef;
-my $lattitudeFolder3 = undef;
-my $longtitudeFolder4 = undef;
-my $lattitudeFolder4 = undef;
-my $longtitudeFolder5 = undef;
-my $lattitudeFolder5 = undef;
-
-
-
-
-	while(<$input>){
+    while(<$input>){
     	chomp;
 
         if ( m/\<\?xml\s+version\=\'1\.0\'\s+encoding\=\'UTF\-8\'\?\>/ ){
@@ -156,34 +100,7 @@ my $lattitudeFolder5 = undef;
             $foldersInProcess = 1;
         }
 
-        if( $foldersInProcess ){
-
-            #Folders parse here
-            if ( m/\<\/Folder\>/){
-
-                push @folders,[ $idFolder,$nameFolder,$longtitudeFolder1,$lattitudeFolder1,
-                                                      $longtitudeFolder2,$lattitudeFolder2,
-                                                      $longtitudeFolder3,$lattitudeFolder3,
-                                                      $longtitudeFolder4,$lattitudeFolder4,
-                                                      $longtitudeFolder5,$lattitudeFolder5 ];
-            }
-            if ( $_ =~ m/\<Folder\s+id='([a-zA-Z0-9_]+)'\>/ ){
-
-                $idFolder = $1;
-
-            }elsif ( $_ =~ m/\<name\>([a-zA-Z0-9\s+_]+)\<\/name\>/ ){
-
-                $nameFolder = $1;
-
-            }elsif( $_ =~ m/\<LinearRing\>\<coordinates\>(\-*\d+\.\d+)\,(\-*\d+\.\d+)\s+(\-*\d+\.\d+)\,(\-*\d+\.\d+)\s+(\-*\d+\.\d+)\,(\-*\d+\.\d+)\s+(\-*\d+\.\d+)\,(\-*\d+\.\d+)\s+(\-*\d+\.\d+)\,(\-*\d+\.\d+)\<\/coordinates\>\<\/LinearRing\>/ ){
-
-                ( $longtitudeFolder1, $lattitudeFolder1,
-                  $longtitudeFolder2, $lattitudeFolder2,
-                  $longtitudeFolder3, $lattitudeFolder3,
-                  $longtitudeFolder4, $lattitudeFolder4,
-                  $longtitudeFolder5, $lattitudeFolder5 ) = ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10);
-            }
-        }elsif ( $placemarksInProcess ){
+        if ( $placemarksInProcess ){
 
             #Placemarks parse here
             if ( m/\<\/Placemark\>/){
@@ -235,36 +152,6 @@ my $lattitudeFolder5 = undef;
         }
 	}
 close $input;
-
-#print Dumper \@placemarks;
-#print Dumper \@folders;
-#print Dumper \@startData;
-
-# calcDistance(96,4,92,11);
-
-my @folderObjects = ();
-foreach my $folderData ( @folders ) {
-
-    my $point1 = Point->new("longtitude" => $folderData->[2],"latitude" => $folderData->[3] );
-    my $point2 = Point->new("longtitude" => $folderData->[4],"latitude" => $folderData->[5] );
-    my $point3 = Point->new("longtitude" => $folderData->[6],"latitude" => $folderData->[7] );
-    my $point4 = Point->new("longtitude" => $folderData->[8],"latitude" => $folderData->[9] );
-    my $point5 = Point->new("longtitude" => $folderData->[10],"latitude" => $folderData->[11] );
-
-    my $folder = Folder->new( "id" => $folderData->[0],
-                                    "name" => $folderData->[1],
-                                    "point1" => $point1,
-                                    "point2" => $point2,
-                                    "point3" => $point3,
-                                    "point4" => $point4,
-                                    "point5" => $point5 );
-    push @folderObjects,$folder;
-}
-
-#print Dumper \@placeObjects;
-#print Dumper \@folderObjects;
-#print Dumper \@startData;
-
 
 foreach my $arr ( @startData ) {
 
