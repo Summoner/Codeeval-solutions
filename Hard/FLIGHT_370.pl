@@ -191,31 +191,14 @@ sub calc {
         if ( defined $maxPeople && $maxPeople != $placemaker->confirmationsCount ){
 
             last;
-
         }
         push @resultPlaces, $placemaker;
     }
 
-    
-    #print compareDates( $resultPlaces[0]->timeStamp,$resultPlaces[1]->timeStamp );
-    #print Dumper \@resultPlaces;
     my @sorted = map{$_->name} sort{ DateTime->compare( $b->timeStamp, $a->timeStamp ) ||
                                     $a->id <=> $b->id }@resultPlaces;
-    
-    #print Dumper \@sorted;
     return join (", ",@sorted),"\n";
 } ## --- end sub calc
-
-
-
-sub compareDates {
-    my	( $date1,$date2 )	= @_;
-
-    my $result = DateTime->compare($date1,$date2);
-    return $result;  
-} ## --- end sub compareDates
-
-
 
 sub calcDistance {
     my	( $longtitudeD1,$latitudeD1,$longtitudeD2,$latitudeD2 )	= @_;
