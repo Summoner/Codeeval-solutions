@@ -2,7 +2,8 @@
 use strict;
 use warnings;
 use Data::Dumper;
-use DateTime::Format::Strptime;
+#use DateTime::Format::Strptime;
+use DateTime;
 
 package Placemark;
 
@@ -33,9 +34,21 @@ sub timeStamp {
     my ( $self,$dateInString ) = @_;
 
     return $self->{timeStamp} unless defined ( $dateInString );
-    my $strPars = DateTime::Format::Strptime->new( pattern => '%F %T' );
-    my $dtObj = $strPars->parse_datetime( $dateInString );
-    $self->{timeStamp} = $dtObj;
+
+    #my $strPars = DateTime::Format::Strptime->new( pattern => '%F %T' );
+    #my $dtObj = $strPars->parse_datetime( $dateInString );
+    if ( $dateInString =~ m/(\d{4})\-(\d{2})\-(\d{2})\s+(\d{1,2})\:(\d{1,2})\:(\d{1,2})\.\d+/ ){
+
+        my $dtObj = DateTime->new(
+                    year => $1,
+                    month => $2,
+                    day => $3,
+                    hour => $4,
+                    minute => $5,
+                    second => $6
+        );
+        $self->{timeStamp} = $dtObj;
+    }
     return $self->{timeStamp};
 } ## --- end sub timeStamp
 
