@@ -17,26 +17,20 @@ my @list = ();
 close $input;
 
 foreach my $arr ( @list ) {
-
     if ( isArmstrongNumber( $arr ) ){
-
         print "True\n";
-
     }else{
-
         print "False\n";
     }
 }
 
 sub isArmstrongNumber {
     my	( $arr )	= @_;
-
     my $pow = scalar @$arr;
     my $number = join "",@$arr;
     my $sum = 0;
 
     foreach my $digit ( @$arr ) {
-
         $sum += $digit ** $pow;
     }
 

@@ -47,36 +47,26 @@ $alphabet{z} = 26;
 
 #print Dumper \@list;
 foreach my $arr ( @list ) {
-
     print calc( $arr ),"\n";
 }
 
 sub calc {
     my	( $str )	= @_;
-
     my %letters = ();
     my $result = 0;
     my $beautyCoeff = 26;
-
     foreach my $letter ( @$str ) {
-
         next unless defined ( $alphabet{$letter} );
-
         $letters{$letter}++;
     }
-    
     my @sortedByAppearance = sort { $letters{$b} <=> $letters{$a} }keys %letters;
-
     foreach my $letter ( @sortedByAppearance ) {
-
         my $beauty = $beautyCoeff * $letters{$letter};
         $result += $beauty;
         $beautyCoeff--; 
     }
     return $result;
 } ## --- end sub calc
-
-
 
 my $t1 = new Benchmark;
 my $td = timediff($t1, $t0);
