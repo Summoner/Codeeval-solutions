@@ -1,23 +1,22 @@
 #!/usr/bin/perl -w
 use strict;
 use warnings;
-use Data::Dumper; 
+use Data::Dumper;
 use Benchmark;
 
 my $t0 = new Benchmark;
 open my $input, "/home/fanatic/Summoner/Codeeval-solutions/input.txt" || die "Can't open file: $!\n";
 # open my $result, ">D:\\Perl\\output1.txt" || die "Can't open file: $!\n";
 
-my @list = (); 
-	 
-	while(<$input>){			
-	chomp;	
-	push @list,[split /;/,$_];
+my @list = ();
+
+	while(<$input>){
+	    chomp;
+	    push @list,[split /;/,$_];
 	}
 close $input;
 
 #print Dumper \@list;
-
 
 foreach my $arr ( @list ) {
 
@@ -27,78 +26,70 @@ foreach my $arr ( @list ) {
 sub main {
     my	( $arr )	= @_;
 
-    my @arr1 = split /\s+/,$arr->[0];
-    my @arr2 = split /\s+/,$arr->[1];
-    
+    my @mainWords = split /\s+/,$arr->[0];
+    my @patternWords = split /\s+/,$arr->[1];
+
     my @result = ();
-    my $is_exist = 0;
+    my $isExist = 0;
     my $index = 0;
 
-    foreach my $i (0..$#arr2 ) {
+    foreach my $i (0..$#patternWords ) {
 
-    if ( $index == scalar @arr1 ){
-   
-        @result = ();
-        $is_exist = 0;
-        last;    
-    }
+        if ( $index == scalar @mainWords ){
 
-        foreach my $j ($index..$#arr1 ) {
-        
-            if ( is_substr( $arr1[$j],$arr2[$i] ) ){
-            
-               $is_exist = 1;
-               push @result,form( $arr1[$j], $arr2[$i] );
-               $index = $j+1;
-               last;
+            @result = ();
+            $isExist = 0;
+            last;
+        }
+        foreach my $j ($index..$#mainWords ) {
 
+            if ( isSubstr( $mainWords[$j],$patternWords[$i] ) ){
+
+                $isExist = 1;
+                push @result,form( $mainWords[$j], $patternWords[$i] );
+                $index = $j+1;
+                last;
             }else{
-            
-               push @result, ( "_" x length( $arr1[$j] )) ;            
+
+               push @result, ( "_" x length( $mainWords[$j] ));
             }
-
-                        
         }
     }
+    if ( $isExist && ( scalar @mainWords > scalar @result) ){
 
-    if ( $is_exist && ( scalar @arr1 != scalar @result) ){
-    
-        
-        foreach ( scalar @result .. scalar @arr1-1 ) {
+        foreach ( scalar @result .. scalar @mainWords-1 ) {
 
-            push @result, "_" x length ( $arr1[$_] );
+            push @result, "_" x length ( $mainWords[$_] );
         }
     }
-    push @result, "I cannot fix history" unless ( $is_exist );
-    return join " ",@result;
+    unless ( $isExist ){
+
+        return "I cannot fix history";
+    }
+    return join (" ",@result);
 } ## --- end sub main
 
-
-
 sub form {
-    my	( $str1,$str2 )	= @_;
-
-    my @arr1 = ( ("_") ) x length($str1);
-
-    my $start_pos = index( $str1,$str2 );
-
+    my	( $str,$pattern )	= @_;
+    my @mainStr = ( ("_") ) x length($str);
+    my $startPos = index( $str,$pattern );
     my $position = 0;
 
-    for ( my $i=$start_pos; $i < $start_pos + length($str2); $i++ ) {
+    for ( my $i = $startPos; $i < $startPos + length($pattern); $i++ ) {
 
-        $arr1[$i] = substr( $str2, $position,1 );
+        $mainStr[$i] = substr( $pattern, $position,1 );
         $position++;
     }
-    return join "",@arr1;
+    return join ("",@mainStr);
 } ## --- end sub form
 
-
-sub is_substr {
+sub isSubstr {
     my	( $str,$substr )	= @_;
 
     return 1 if ( $str =~ /$substr/);
     return 0;
 } ## --- end sub is_substr
+
 my $t1 = new Benchmark;
 my $td = timediff($t1, $t0);
 print "the code took:",timestr($td),"\n"
