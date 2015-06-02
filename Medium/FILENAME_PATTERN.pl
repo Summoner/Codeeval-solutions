@@ -26,25 +26,14 @@ foreach my $arr (@list){
 sub calc {
     my	( $arr )	= @_;
     my $pattern = shift @$arr;
-    my $old = $pattern;
-    my $string_beginning = "^";
-    $pattern = $string_beginning . $pattern;
-    $pattern =~ s/\./\\./g;
-    $pattern =~ s/\?/\./g;
-    $pattern =~ s/\*/\.\{0,}/g;
+    if ( $pattern =~ /\*/){
+    
+        $pattern =~ s/\*/[a-zA-Z0-9\.]/;
 
-    my @result = ();
+    }elsif( $pattern =~ /\?/ )
 
-    foreach my $name ( @$arr ) {
 
-        if ( $name =~ /$pattern/ ){
 
-            push @result, $name;
-        }
-    }
-
-    print "-" if ( scalar @result == 0 );
-    print join (" ",@result),"\n";
 } ## --- end sub calc
 
 
