@@ -4,86 +4,310 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Agent	VISIT_TO_THE_HEADQUARTERS.pl	/^package Agent;$/;"	p
+Building	VISIT_TO_THE_HEADQUARTERS.pl	/^package Building;$/;"	p
+Card	POKER_HANDS.pl	/^package Card;$/;"	p
+Circuit	JUGGLE_FEST.pl	/^package Circuit;$/;"	p
 Closest	CLOSEST_PAIR.pl	/^sub Closest {$/;"	s
 ClosestUtil	CLOSEST_PAIR.pl	/^sub ClosestUtil {$/;"	s
+Constants	VISIT_TO_THE_HEADQUARTERS.pl	/^package Constants;$/;"	p
+Criminal	CRIME_HOUSE.pl	/^package Criminal;$/;"	p
+CriminalHouse	CRIME_HOUSE.pl	/^package CriminalHouse;$/;"	p
+Cube	THE_CUBES_OOP.pl	/^package Cube;$/;"	p
+E	JUGGLE_FEST.pl	/^sub E {$/;"	s
+Element	THE_CUBES_OOP.pl	/^package Element;$/;"	p
+Elevator	VISIT_TO_THE_HEADQUARTERS.pl	/^package Elevator;$/;"	p
+GCD	DISCOUNT_OFFERS.pl	/^sub GCD {$/;"	s
+GetNextCombination	DNA_ALIGNMENT.pl	/^sub GetNextCombination{$/;"	s
+Graph	THE_CUBES_OOP.pl	/^package Graph;$/;"	p
+H	JUGGLE_FEST.pl	/^sub H {$/;"	s
+Hand	POKER_HANDS.pl	/^package Hand;$/;"	p
+Juggler	JUGGLE_FEST.pl	/^package Juggler;$/;"	p
+LeftSide	SKYSCRAPERS.pl	/^sub LeftSide{$/;"	s
 Levenstein_Distance	LEVENSHTEIN_DISTANCE.pl	/^sub Levenstein_Distance {$/;"	s
+P	JUGGLE_FEST.pl	/^sub P {$/;"	s
+Placemark	FLIGHT_370.pl	/^package Placemark;$/;"	p
+PockerGame	POKER_HANDS.pl	/^package PockerGame;$/;"	p
+Point	FLIGHT_370.pl	/^package Point;$/;"	p
+Point	SKYSCRAPERS.pl	/^package Point;$/;"	p
+Point	THE_CUBES_OOP.pl	/^package Point;$/;"	p
+Process	JUGGLE_FEST.pl	/^package Process;$/;"	p
+RightSide	SKYSCRAPERS.pl	/^sub RightSide{$/;"	s
+Roof	SKYSCRAPERS.pl	/^sub Roof{$/;"	s
+Room	VISIT_TO_THE_HEADQUARTERS.pl	/^package Room;$/;"	p
+Route	VISIT_TO_THE_HEADQUARTERS.pl	/^package Route;$/;"	p
+RoutePart	VISIT_TO_THE_HEADQUARTERS.pl	/^package RoutePart;$/;"	p
+Skyscraper	SKYSCRAPERS.pl	/^package Skyscraper;$/;"	p
+StartPoint	SKYSCRAPERS.pl	/^sub StartPoint {$/;"	s
+StopPoint	SKYSCRAPERS.pl	/^sub StopPoint {$/;"	s
+Wall	SKYSCRAPERS.pl	/^package Wall;$/;"	p
+X	SKYSCRAPERS.pl	/^sub X {$/;"	s
+Y	SKYSCRAPERS.pl	/^sub Y {$/;"	s
+_can_travel	THE_CUBES_OOP.pl	/^sub _can_travel {$/;"	s
+_create_graph	THE_CUBES_OOP.pl	/^sub _create_graph {$/;"	s
+_element	THE_CUBES_OOP.pl	/^sub _element {$/;"	s
+_find_empty_cell_in_border	THE_CUBES_OOP.pl	/^sub _find_empty_cell_in_border {$/;"	s
 _spread_light	RAY_OF_LIGHT.pl	/^sub _spread_light {$/;"	s
+addNodeDifferentBuses	A_BUS_NETWORK.pl	/^sub addNodeDifferentBuses{$/;"	s
+addNodeSameBus	A_BUS_NETWORK.pl	/^sub addNodeSameBus {$/;"	s
+add_card	POKER_HANDS.pl	/^sub add_card {$/;"	s
 add_edge	THE_CUBES.pl	/^sub add_edge {$/;"	s
+add_edge	THE_CUBES_OOP.pl	/^sub add_edge {$/;"	s
 add_edge	THE_LABYRINTH.pl	/^sub add_edge {$/;"	s
 add_friend	LEVENSHTEIN_DISTANCE.pl	/^sub add_friend {$/;"	s
-are_uniq	TOO_UNIQUE.pl	/^sub are_uniq {$/;"	s
-bfs	THE_CUBES.pl	/^sub bfs {$/;"	s
+adjacent_points	THE_CUBES_OOP.pl	/^sub adjacent_points {$/;"	s
+adjacent_to	THE_CUBES_OOP.pl	/^sub adjacent_to {$/;"	s
+all_connected	PEAK_TRAFFIC.pl	/^sub all_connected {$/;"	s
+alphabetCodes	VISIT_TO_THE_HEADQUARTERS.pl	/^sub alphabetCodes {$/;"	s
+analyzePackage	IP_PACKAGE.pl	/^sub analyzePackage {$/;"	s
+answer	LIGHTS_OUT.pl	/^sub answer {$/;"	s
+areEqual	ROUTING_PROBLEM.pl	/^sub areEqual {$/;"	s
+areOverlap	SKYSCRAPERS.pl	/^sub areOverlap {$/;"	s
+arr_part	TOO_UNIQUE.pl	/^sub arr_part {$/;"	s
+backSubstitute	LIGHTS_OUT.pl	/^sub backSubstitute {$/;"	s
+biggest_SS	DISCOUNT_OFFERS.pl	/^sub biggest_SS {$/;"	s
+bin2dec	ROUTING_PROBLEM.pl	/^sub bin2dec{$/;"	s
+binToHex	IP_PACKAGE.pl	/^sub binToHex {$/;"	s
 brute_force	CLOSEST_PAIR.pl	/^sub brute_force {$/;"	s
-build_indexes	TYPE_AHEAD.pl	/^sub build_indexes {$/;"	s
+buildIndexes	TYPE_AHEAD.pl	/^sub buildIndexes {$/;"	s
+busy	VISIT_TO_THE_HEADQUARTERS.pl	/^sub busy {$/;"	s
+calc	A_BUS_NETWORK.pl	/^sub calc {$/;"	s
 calc	CLIMBING_STAIRS.pl	/^sub calc {$/;"	s
 calc	COMPUTER_TERMINAL.pl	/^sub calc {$/;"	s
+calc	CRACKING_EGGS.pl	/^sub calc {$/;"	s
+calc	CRIME_HOUSE.pl	/^sub calc {$/;"	s
+calc	DISTINCT_TRIANGLES.pl	/^sub calc {$/;"	s
+calc	DNA_ALIGNMENT.pl	/^sub calc {$/;"	s
 calc	FIND_MIN.pl	/^sub calc {$/;"	s
+calc	FLIGHT_370.pl	/^sub calc {$/;"	s
+calc	LARGEST_SUBMATRIX.pl	/^sub calc {$/;"	s
+calc	LESS_MONEY_MORE_PROBLEM.pl	/^sub calc {$/;"	s
+calc	LONGEST_PATH.pl	/^sub calc {$/;"	s
 calc	MINIMUM_PATH_SUM.pl	/^sub calc {$/;"	s
+calc	ROUTING_PROBLEM.pl	/^sub calc {$/;"	s
+calc	SEQUENCE_TRANSFORMATION.pl	/^sub calc {$/;"	s
+calc	SKYSCRAPERS.pl	/^sub calc {$/;"	s
 calc	TEXT_TO_NUMBER.pl	/^sub calc{$/;"	s
 calc	TYPE_AHEAD.pl	/^sub calc {$/;"	s
 calc	UGLY_NUMBERS.pl	/^sub calc {$/;"	s
+calc1	SEQUENCE_TRANSFORMATION.pl	/^sub calc1 {$/;"	s
+calcDistance	FLIGHT_370.pl	/^sub calcDistance {$/;"	s
+calcPoints	DNA_ALIGNMENT.pl	/^sub calcPoints {$/;"	s
+calc_SS	DISCOUNT_OFFERS.pl	/^sub calc_SS {$/;"	s
+calc_assigment	JUGGLE_FEST.pl	/^sub calc_assigment {$/;"	s
 calc_edge	COMMUTING_ENGINEER.pl	/^sub calc_edge {$/;"	s
 calc_edge	MARS_NETWORKS.pl	/^sub calc_edge {$/;"	s
+calc_ways	EFFICIENT_DELIVERY.pl	/^sub calc_ways {$/;"	s
+card_rating	POKER_HANDS.pl	/^sub card_rating {$/;"	s
+change_arrays	STRING_SUBSTITUTION2.pl	/^sub change_arrays {$/;"	s
+char_to_element	THE_CUBES_OOP.pl	/^sub char_to_element {$/;"	s
+check	PEAK_TRAFFIC.pl	/^sub check {$/;"	s
+check	TOO_UNIQUE.pl	/^sub check {$/;"	s
+clearHouseandStreet	CRIME_HOUSE.pl	/^sub clearHouseandStreet {$/;"	s
 clear_board	WORD_SEARCH.pl	/^sub clear_board {$/;"	s
 clear_matrix	COMPUTER_TERMINAL.pl	/^sub clear_matrix {$/;"	s
+clear_matrix	TOO_UNIQUE.pl	/^sub clear_matrix {$/;"	s
+column	THE_CUBES_OOP.pl	/^sub column {$/;"	s
+compare_hands	POKER_HANDS.pl	/^sub compare_hands {$/;"	s
+compare_substrings	PLAY_WITH_DNA.pl	/^sub compare_substrings {$/;"	s
+confirmationsCount	FLIGHT_370.pl	/^sub confirmationsCount {$/;"	s
+convert	DECRYPTION.pl	/^sub convert {$/;"	s
+convert	LIGHTS_OUT.pl	/^sub convert {$/;"	s
+convert	ROUTING_PROBLEM.pl	/^sub convert{$/;"	s
+convertTime	VISIT_TO_THE_HEADQUARTERS.pl	/^sub convertTime {$/;"	s
+count	CRACKING_EGGS.pl	/^sub count {$/;"	s
+count_card_suit	POKER_HANDS.pl	/^sub count_card_suit {$/;"	s
+count_combinations	EFFICIENT_DELIVERY.pl	/^sub count_combinations {$/;"	s
+count_consonants	DISCOUNT_OFFERS.pl	/^sub count_consonants {$/;"	s
+count_letters	DISCOUNT_OFFERS.pl	/^sub count_letters {$/;"	s
+count_vowels	DISCOUNT_OFFERS.pl	/^sub count_vowels {$/;"	s
+count_ways	EFFICIENT_DELIVERY.pl	/^sub count_ways {$/;"	s
+createGraph	A_BUS_NETWORK.pl	/^sub createGraph {$/;"	s
+createGraph	DISTINCT_TRIANGLES.pl	/^sub createGraph {$/;"	s
+createGraph	ROUTING_PROBLEM.pl	/^sub createGraph{$/;"	s
 create_graph	COMMUTING_ENGINEER.pl	/^sub create_graph {$/;"	s
 create_graph	MARS_NETWORKS.pl	/^sub create_graph{$/;"	s
+create_graph	SEAT_YOUR_TEAM_MEMBERS.pl	/^sub create_graph {$/;"	s
 create_graph	THE_CUBES.pl	/^sub create_graph {$/;"	s
 create_graph	THE_LABYRINTH.pl	/^sub create_graph {$/;"	s
+create_grid	ROBOT_MOVEMENTS.pl	/^sub create_grid {$/;"	s
 create_matrix	RAY_OF_LIGHT.pl	/^sub create_matrix {$/;"	s
 create_maze	THE_CUBES.pl	/^sub create_maze {$/;"	s
+create_sort_string	EFFICIENT_DELIVERY.pl	/^sub create_sort_string {$/;"	s
+criminalsInHouseCount	CRIME_HOUSE.pl	/^sub criminalsInHouseCount {$/;"	s
+currentFloor	VISIT_TO_THE_HEADQUARTERS.pl	/^sub currentFloor {$/;"	s
+currentRoom	VISIT_TO_THE_HEADQUARTERS.pl	/^sub currentRoom {$/;"	s
+deep	LONGEST_PATH.pl	/^sub deep {$/;"	s
+deep	ROBOT_MOVEMENTS.pl	/^sub deep {$/;"	s
 deep	TEXT_DOLLAR.pl	/^sub deep {$/;"	s
 deep	WORD_SEARCH.pl	/^sub deep {$/;"	s
 delete_row	MARS_NETWORKS.pl	/^sub delete_row {$/;"	s
+dijkstra	A_BUS_NETWORK.pl	/^sub dijkstra {$/;"	s
+dijkstra	ROUTING_PROBLEM.pl	/^sub dijkstra {$/;"	s
 dijkstra	THE_LABYRINTH.pl	/^sub dijkstra{$/;"	s
+dijsktra	THE_CUBES_OOP.pl	/^sub dijsktra {$/;"	s
 dist	CLOSEST_PAIR.pl	/^sub dist {$/;"	s
+door	CRIME_HOUSE.pl	/^sub door {$/;"	s
 draw_way	THE_LABYRINTH.pl	/^sub draw_way {$/;"	s
+entrance	THE_CUBES_OOP.pl	/^sub entrance {$/;"	s
+entryTime	VISIT_TO_THE_HEADQUARTERS.pl	/^sub entryTime {$/;"	s
+equal_to	THE_CUBES_OOP.pl	/^sub equal_to {$/;"	s
 erase_row	COMPUTER_TERMINAL.pl	/^sub erase_row {$/;"	s
+error	CRIME_HOUSE.pl	/^sub error {$/;"	s
 eval_expr	PREFIX_EXPRESSIONS.pl	/^sub eval_expr{$/;"	s
+exit	THE_CUBES_OOP.pl	/^sub exit {$/;"	s
+exitTime	VISIT_TO_THE_HEADQUARTERS.pl	/^sub exitTime {$/;"	s
+extractRouteCurrentPart	VISIT_TO_THE_HEADQUARTERS.pl	/^sub extractRouteCurrentPart {$/;"	s
+findMaxSubMatrix	LARGEST_SUBMATRIX.pl	/^sub findMaxSubMatrix {$/;"	s
+findMaxSubMatrix	TOO_UNIQUE.pl	/^sub findMaxSubMatrix {$/;"	s
+findPivot	LIGHTS_OUT.pl	/^sub findPivot {$/;"	s
 find_all	LEVENSHTEIN_DISTANCE.pl	/^sub find_all {$/;"	s
 find_final_string	STRING_SUBSTITUTION.pl	/^sub find_final_string {$/;"	s
 find_final_string	STRING_SUBSTITUTION1.pl	/^sub find_final_string {$/;"	s
+find_initial_matching	SEAT_YOUR_TEAM_MEMBERS.pl	/^sub find_initial_matching {$/;"	s
 find_initial_trajectory	RAY_OF_LIGHT.pl	/^sub find_initial_trajectory {$/;"	s
 find_input_point	RAY_OF_LIGHT.pl	/^sub find_input_point {$/;"	s
+find_matches	PLAY_WITH_DNA.pl	/^sub find_matches {$/;"	s
 find_max_pack	PACKAGE_PROBLEM1.pl	/^sub find_max_pack {$/;"	s
 find_path	THE_CUBES.pl	/^sub find_path {$/;"	s
 find_point	THE_CUBES.pl	/^sub find_point {$/;"	s
-find_shortest_path	THE_CUBES.pl	/^sub find_shortest_path {$/;"	s
+floor	VISIT_TO_THE_HEADQUARTERS.pl	/^sub floor {$/;"	s
+flush	POKER_HANDS.pl	/^sub flush {$/;"	s
+formInputsOutputs	A_BUS_NETWORK.pl	/^sub formInputsOutputs {$/;"	s
+form_arrays	BAY_BRIDGES.pl	/^sub form_arrays {$/;"	s
+form_assigment	JUGGLE_FEST.pl	/^sub form_assigment {$/;"	s
+four_of_a_kind	POKER_HANDS.pl	/^sub four_of_a_kind {$/;"	s
+full_house	POKER_HANDS.pl	/^sub full_house {$/;"	s
+getAgentFromQueue	VISIT_TO_THE_HEADQUARTERS.pl	/^sub getAgentFromQueue {$/;"	s
+getCrossingCoordinats	SKYSCRAPERS.pl	/^sub getCrossingCoordinats {$/;"	s
+getQueueCount	VISIT_TO_THE_HEADQUARTERS.pl	/^sub getQueueCount {$/;"	s
+getRouteNextRoom	VISIT_TO_THE_HEADQUARTERS.pl	/^sub getRouteNextRoom {$/;"	s
+getRouteNextRoom	VISIT_TO_THE_HEADQUARTERS.pl	/^sub getRouteNextRoom{$/;"	s
 get_XY	THE_LABYRINTH.pl	/^sub get_XY {$/;"	s
 get_arr	LONGEST_COMMON_SUBSEQUENCE.pl	/^sub get_arr{$/;"	s
 get_common	LONGEST_COMMON_SUBSEQUENCE.pl	/^sub get_common {$/;"	s
+get_floor	THE_CUBES_OOP.pl	/^sub get_floor{$/;"	s
+get_hole	THE_CUBES_OOP.pl	/^sub get_hole{$/;"	s
 get_indexes	PACKAGE_PROBLEM.pl	/^sub get_indexes {$/;"	s
+get_max	DISCOUNT_OFFERS.pl	/^sub get_max {$/;"	s
 get_min	MARS_NETWORKS.pl	/^sub get_min {$/;"	s
 get_steps	THE_CUBES.pl	/^sub get_steps {$/;"	s
+get_wall	THE_CUBES_OOP.pl	/^sub get_wall{$/;"	s
+graph	THE_CUBES_OOP.pl	/^sub graph {$/;"	s
+have_common_point	BAY_BRIDGES.pl	/^sub have_common_point {$/;"	s
+hexToBin	IP_PACKAGE.pl	/^sub hexToBin {$/;"	s
+higher_card	POKER_HANDS.pl	/^sub higher_card {$/;"	s
+id	CRIME_HOUSE.pl	/^sub id {$/;"	s
+id	FLIGHT_370.pl	/^sub id {$/;"	s
+inElevator	VISIT_TO_THE_HEADQUARTERS.pl	/^sub inElevator {$/;"	s
+inQueueToElevator	VISIT_TO_THE_HEADQUARTERS.pl	/^sub inQueueToElevator {$/;"	s
+inQueueToRoom	VISIT_TO_THE_HEADQUARTERS.pl	/^sub inQueueToRoom {$/;"	s
+inRoom	VISIT_TO_THE_HEADQUARTERS.pl	/^sub inRoom {$/;"	s
 in_corner	RAY_OF_LIGHT.pl	/^sub in_corner {$/;"	s
 in_room	RAY_OF_LIGHT.pl	/^sub in_room {$/;"	s
 input	WORD_SEARCH.pl	/^sub input {$/;"	s
+ipConvertToBin	ROUTING_PROBLEM.pl	/^sub ipConvertToBin {$/;"	s
 is_contain	FIND_MIN.pl	/^sub is_contain {$/;"	s
 is_even_primes	PALINDROMIC_RANGES.pl	/^sub is_even_primes{$/;"	s
 is_palindrom	PALINDROMIC_RANGES.pl	/^sub is_palindrom{$/;"	s
+is_subcluster	PEAK_TRAFFIC.pl	/^sub is_subcluster {$/;"	s
 is_ugly	UGLY_NUMBERS.pl	/^sub is_ugly {$/;"	s
+justEnter	VISIT_TO_THE_HEADQUARTERS.pl	/^sub justEnter {$/;"	s
+latitude	FLIGHT_370.pl	/^sub latitude {$/;"	s
+length	THE_CUBES_OOP.pl	/^sub length {$/;"	s
+level	THE_CUBES_OOP.pl	/^sub level {$/;"	s
+linearizePuzzle	LIGHTS_OUT.pl	/^sub linearizePuzzle {$/;"	s
 log10	TEXT_DOLLAR.pl	/^sub log10 {$/;"	s
+longest_increasing_susequence	BAY_BRIDGES.pl	/^sub longest_increasing_susequence {$/;"	s
+longtitude	FLIGHT_370.pl	/^sub longtitude {$/;"	s
+mainProcess	VISIT_TO_THE_HEADQUARTERS.pl	/^sub mainProcess{$/;"	s
+makeToggleMatrix	LIGHTS_OUT.pl	/^sub makeToggleMatrix {$/;"	s
+maskConvertToDec	ROUTING_PROBLEM.pl	/^sub maskConvertToDec {$/;"	s
+matching	SEQUENCE_TRANSFORMATION.pl	/^sub matching {$/;"	s
+matchingProcess	SEQUENCE_TRANSFORMATION.pl	/^sub matchingProcess {$/;"	s
 max	LONGEST_COMMON_SUBSEQUENCE.pl	/^sub max {$/;"	s
+max_matching_alg	SEAT_YOUR_TEAM_MEMBERS.pl	/^sub max_matching_alg {$/;"	s
+merge_paths	SEAT_YOUR_TEAM_MEMBERS.pl	/^sub merge_paths {$/;"	s
 min	CLOSEST_PAIR.pl	/^sub min {$/;"	s
 min	LEVENSHTEIN_DISTANCE.pl	/^sub min {$/;"	s
 min	MINIMUM_PATH_SUM.pl	/^sub min {$/;"	s
+min	PLAY_WITH_DNA.pl	/^sub min {$/;"	s
 min	THE_CUBES.pl	/^sub min {$/;"	s
+name	FLIGHT_370.pl	/^sub name {$/;"	s
+new	CRIME_HOUSE.pl	/^sub new {$/;"	s
+new	FLIGHT_370.pl	/^sub new {$/;"	s
+new	JUGGLE_FEST.pl	/^sub new {$/;"	s
+new	POKER_HANDS.pl	/^sub new {$/;"	s
+new	SKYSCRAPERS.pl	/^sub new {$/;"	s
+new	THE_CUBES_OOP.pl	/^sub new {$/;"	s
+new	VISIT_TO_THE_HEADQUARTERS.pl	/^sub new {$/;"	s
+new_path	SEAT_YOUR_TEAM_MEMBERS.pl	/^sub new_path {$/;"	s
 next_position	RAY_OF_LIGHT.pl	/^sub next_position {$/;"	s
+one_pair	POKER_HANDS.pl	/^sub one_pair {$/;"	s
 pack2	PACKAGE_PROBLEM.pl	/^sub pack2 {$/;"	s
+performGaussianElimination	LIGHTS_OUT.pl	/^sub performGaussianElimination {$/;"	s
+place_value	EFFICIENT_DELIVERY.pl	/^sub place_value {$/;"	s
+point	FLIGHT_370.pl	/^sub point {$/;"	s
 prim_alg	MARS_NETWORKS.pl	/^sub prim_alg {$/;"	s
+proceed	EFFICIENT_DELIVERY.pl	/^sub proceed {$/;"	s
+proceed	ROUTING_PROBLEM.pl	/^sub proceed {$/;"	s
+process	POKER_HANDS.pl	/^sub process {$/;"	s
+queue	VISIT_TO_THE_HEADQUARTERS.pl	/^sub queue {$/;"	s
+rating	VISIT_TO_THE_HEADQUARTERS.pl	/^sub rating {$/;"	s
 reflect_horisontally	RAY_OF_LIGHT.pl	/^sub reflect_horisontally {$/;"	s
 reflect_vertically	RAY_OF_LIGHT.pl	/^sub reflect_vertically {$/;"	s
+remainedRooms	VISIT_TO_THE_HEADQUARTERS.pl	/^sub remainedRooms {$/;"	s
+remove_subclusters	PEAK_TRAFFIC.pl	/^sub remove_subclusters {$/;"	s
+replace	STRING_SUBSTITUTION2.pl	/^sub replace {$/;"	s
 reverse_trajectory	RAY_OF_LIGHT.pl	/^sub reverse_trajectory {$/;"	s
+room	VISIT_TO_THE_HEADQUARTERS.pl	/^sub room {$/;"	s
+roomNumber	VISIT_TO_THE_HEADQUARTERS.pl	/^sub roomNumber {$/;"	s
+route	VISIT_TO_THE_HEADQUARTERS.pl	/^sub route {$/;"	s
+row	THE_CUBES_OOP.pl	/^sub row {$/;"	s
+rowMajorIndex	LIGHTS_OUT.pl	/^sub rowMajorIndex {$/;"	s
+royal_flush	POKER_HANDS.pl	/^sub royal_flush {$/;"	s
+searching_substring	STRING_SUBSTITUTION2.pl	/^sub searching_substring {$/;"	s
+setAgentToQueue	VISIT_TO_THE_HEADQUARTERS.pl	/^sub setAgentToQueue {$/;"	s
+setRouteNextPart	VISIT_TO_THE_HEADQUARTERS.pl	/^sub setRouteNextPart {$/;"	s
 set_new_element	RAY_OF_LIGHT.pl	/^sub set_new_element {$/;"	s
 shift_row	COMPUTER_TERMINAL.pl	/^sub shift_row {$/;"	s
+shortest_path_dijkstra	THE_CUBES.pl	/^sub shortest_path_dijkstra {$/;"	s
+showMatrix	DISTINCT_TRIANGLES.pl	/^sub showMatrix {$/;"	s
+showResult	VISIT_TO_THE_HEADQUARTERS.pl	/^sub showResult{$/;"	s
 show_arr	PACKAGE_PROBLEM1.pl	/^sub show_arr {$/;"	s
 show_matrix	COMPUTER_TERMINAL.pl	/^sub show_matrix {$/;"	s
 show_matrix	RAY_OF_LIGHT.pl	/^sub show_matrix {$/;"	s
+show_matrix	TOO_UNIQUE.pl	/^sub show_matrix {$/;"	s
 show_matrix1	RAY_OF_LIGHT.pl	/^sub show_matrix1 {$/;"	s
 show_maze	THE_CUBES.pl	/^sub show_maze {$/;"	s
 show_maze	THE_LABYRINTH.pl	/^sub show_maze {$/;"	s
+solution	CLOSEST_PAIR.pl	/^sub solution {$/;"	s
+solution	TOO_UNIQUE.pl	/^sub solution {$/;"	s
+solve	LESS_MONEY_MORE_PROBLEM.pl	/^sub solve {$/;"	s
+solvePuzzle	LIGHTS_OUT.pl	/^sub solvePuzzle {$/;"	s
+sortQueue	VISIT_TO_THE_HEADQUARTERS.pl	/^sub sortQueue{$/;"	s
+sort_by_dynamik_criteria	EFFICIENT_DELIVERY.pl	/^sub sort_by_dynamik_criteria {$/;"	s
 sort_x	CLOSEST_PAIR.pl	/^sub sort_x {$/;"	s
 sort_y	CLOSEST_PAIR.pl	/^sub sort_y {$/;"	s
 spread_light	RAY_OF_LIGHT.pl	/^sub spread_light {$/;"	s
+status	CRIME_HOUSE.pl	/^sub status {$/;"	s
+status	POKER_HANDS.pl	/^sub status {$/;"	s
+status	VISIT_TO_THE_HEADQUARTERS.pl	/^sub status {$/;"	s
 str_compare	STRING_SEARCHING.pl	/^sub str_compare {$/;"	s
+straight	POKER_HANDS.pl	/^sub straight {$/;"	s
+straight_flush	POKER_HANDS.pl	/^sub straight_flush {$/;"	s
 stripClosest	CLOSEST_PAIR.pl	/^sub stripClosest {$/;"	s
+suit	POKER_HANDS.pl	/^sub suit {$/;"	s
+swapRanges	LIGHTS_OUT.pl	/^sub swapRanges {$/;"	s
+three_of_a_kind	POKER_HANDS.pl	/^sub three_of_a_kind {$/;"	s
+timeInRoom	VISIT_TO_THE_HEADQUARTERS.pl	/^sub timeInRoom {$/;"	s
+timeProcess	VISIT_TO_THE_HEADQUARTERS.pl	/^sub timeProcess{$/;"	s
+timeStamp	FLIGHT_370.pl	/^sub timeStamp {$/;"	s
+toElevator	VISIT_TO_THE_HEADQUARTERS.pl	/^sub toElevator {$/;"	s
+toExit	VISIT_TO_THE_HEADQUARTERS.pl	/^sub toExit {$/;"	s
+toRoom	VISIT_TO_THE_HEADQUARTERS.pl	/^sub toRoom {$/;"	s
+transpose	DISCOUNT_OFFERS.pl	/^sub transpose {$/;"	s
+two_pairs	POKER_HANDS.pl	/^sub two_pairs {$/;"	s
+type	FLIGHT_370.pl	/^sub type {$/;"	s
+val	POKER_HANDS.pl	/^sub val {$/;"	s
+waitingTime	VISIT_TO_THE_HEADQUARTERS.pl	/^sub waitingTime {$/;"	s
