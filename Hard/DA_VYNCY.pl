@@ -171,13 +171,23 @@ sub OverlappingStringsModification {
             my $lastWordCharacter = $wordIndex == $#wordCharacters ? 1:0;
 
             if ( $lastWordCharacter ){
+
                 #Overlapping at the beginning or at the end of the text and merging All word
                 if ( $startIndex == 0 || $lastTextCharacter ){
                     $overlappingValue = scalar @wordCharacters;
                     #$overlappedString = join "",@textCharacters;
                     $overlappedString = $T;
                     return ( $overlappingValue, $overlappedString );
+
+                #If Overlapping in the middle of the text - need to proceed checking from beginning of word symbols
+                }else{
+                    $wordIndex = 0;
+                    $textIndex++;
+                    #$overlappingValue = scalar @wordCharacters;
+                    #$overlappedString = join "",@textCharacters;
+                    #$overlappedString = $T;
                 }
+
             #Overlapping at the end of the text string and merging part of the word
             }elsif ( $lastTextCharacter ){
                 $overlappingValue = scalar @textCharacters - $startIndex;
@@ -185,15 +195,8 @@ sub OverlappingStringsModification {
                 push @textCharacters,@wordCharacters;
                 $overlappedString = join "",@textCharacters;
                 return ( $overlappingValue, $overlappedString );
-            }
-            $textIndex++;
-            #If Overlapping in the middle of the text - need to proceed checking from beginning of word symbols
-            if ( $lastWordCharacter ){
-                $wordIndex = 0;
-                $overlappingValue = scalar @wordCharacters;
-                #$overlappedString = join "",@textCharacters;
-                $overlappedString = $T;
             }else{
+                $textIndex++;
                 $wordIndex++;
             }
         }else{
