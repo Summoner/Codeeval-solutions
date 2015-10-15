@@ -33,39 +33,45 @@ my @points = ();
 close $input;
 
 #print Dumper \@list;
-proceed( \@points,$list[0] );
+Proceed( \@points,$list[0] );
 
-sub proceed {
+sub Proceed {
     my	( $points,$arr )	= @_;
 
-    my $graph = createGraph($arr);
-    print "********************************\n";
-    print Dumper \$graph;
-    print "********************************\n";
+    my $graph = CreateGraph($arr);
+#    print "********************************\n";
+#    print Dumper \$graph;
+#    print "********************************\n";
 
     foreach my $point ( @$points ) {
 
         my $startP = $point->[0];
         my $stopP = $point->[1];
-        my $routes = dijkstra($graph,$startP,$stopP);
+        my $routes = [];
+        my $minRouteSize = GetMinRouteSize( $graph,$startP,$stopP );
+
+        Deep( $graph,[],$startP,$stopP,$routes );
 
         if ( scalar @$routes == 0 ){
 
             print "No connection\n";
             next;
         }
+
+        $routes = GetMinRoutes( $routes );
+        my @strings = ();
         foreach my $route ( @$routes ) {
 
-            print join ",",@$route;
-            print "       ";
+            my $routeStr = join ", ",@$route;
+            my $str = "[" . $routeStr . "]";
+            push @strings, $str;
         }
-        print "\n";
+        print join (",",@strings),"\n";
     }
     return;
 } ## --- end sub proceed
 
-
-sub createGraph{
+sub CreateGraph{
     my $arr = shift;
 
     my $hosts = {};
@@ -84,90 +90,64 @@ sub createGraph{
 
         for ( my $j=$i+1; $j <= $#hosts; $j++ ) {
 
-            calc( $hosts[$i],$hosts->{$hosts[$i]},$hosts[$j],$hosts->{$hosts[$j]},$graph);
+            FindEqualSubnets( $hosts[$i],$hosts->{$hosts[$i]},$hosts[$j],$hosts->{$hosts[$j]},$graph);
         }
     }
     #print Dumper \$graph;
     return $graph;
 }
 
-sub calc {
+sub FindEqualSubnets {
     my	( $host1,$interfaces1,$host2,$interfaces2,$graph )	= @_;
 
     #$DB::single = 2;
     foreach my $interface1 ( @$interfaces1 ) {
 
-        my $convertedInterface1 = convert( $interface1 );
-
         foreach my $interface2 ( @$interfaces2 ) {
 
-            my $convertedInterface2 = convert( $interface2 );
-
-            print "$interface1: $convertedInterface1 <-----> $interface2: $convertedInterface2\n";
-            #if ( areEqual( $convertedInterface1,$convertedInterface2 ) ){
-            if ( $convertedInterface1 == $convertedInterface2 ){
+            if ( InSameSubnet( $interface1,$interface2 ) ){
 
                 # print "match!!!!! \n";
                 #print "$interface1: $convertedInterface1 <-----> $interface2: $convertedInterface2\n";
 
                 $graph->{$host1}->{$host2} = 1;
                 $graph->{$host2}->{$host1} = 1;
-                return;
             }
         }
     }
 }
 
-sub areEqual {
-    my	( $arr1,$arr2 )	= @_;
+sub InSameSubnet{
 
-    return 0 unless ( scalar @$arr1 == scalar @$arr2 );
+    my ( $interface1,$interface2 ) = @_;
+    my ( $ip1,$mask1 ) = split /\//,$interface1;
+    my ( $ip2,$mask2 ) = split /\//,$interface2;
 
-    for ( my $i = 0; $i <= $#{$arr1}; $i++ ) {
+#    print "ip: $ip -----> mask: $mask\n";
+    $mask1 = MaskConvertToDec( $mask1 );
+    $mask2 = MaskConvertToDec( $mask2 );
 
-        unless ( $arr1->[$i] == $arr2->[$i] ){
+#    print "ip: $ip -----> mask: $mask\n";
+    $ip1 = IpConvertToBin( $ip1 );
+    $ip2 = IpConvertToBin( $ip2 );
 
-            return 0;
-        }
-    }
-    return 1;
-} ## --- end sub areEqual
+    $mask1 = IpConvertToBin( $mask1 );
+    $mask2 = IpConvertToBin( $mask2 );
 
-sub convert{
+#    print "ip: $ip -----> mask: $mask\n";
+    my $subnet1 = $ip1 & $mask1;
+    my $subnet2 = $ip2 & $mask2;
 
-    my $input = shift;
-    #my $input = "67.239.38.85/23";
-    my ( $ip,$mask ) = split /\//,$input;
+#    print "ip1:     $ip1 -----> ip2:     $ip2\n";
+#    print "mask1:   $mask1 -----> mask2:   $mask2\n";
+#    print "subnet1: $subnet1 -----> subnet2: $subnet2\n";
 
-#    print "$ip -----> $mask\n";
-    $mask = maskConvertToDec($mask);
-    #print "$ip -----> $mask\n";
-    $ip = ipConvertToBin($ip);
-    $mask = ipConvertToBin($mask);
-    #   print "$ip -----> $mask\n";
-
-    ###########################################
-    $ip = bin2dec($ip);
-    $mask = bin2dec($mask);
-    return $ip * $mask;
-
-    ##########################################
-    #return [split //, $ip * $mask];
+    return 1 if ( SameSubnet( $subnet1, $subnet2 ) );
+    return 0;
+#    print "subnet: $subnet\n";
 } ## --- end sub calc
 
-sub bin2dec{
-
-    return oct("0b".shift);
-}
-
-
-#sub bin2dec {
-#    my	( $input )	= @_;
-
-#    return unpack( "N",pack("B32",substr("0" x 32 . shift ,-32)));
-#} ## --- end sub bin2dec
-
-sub maskConvertToDec {
+sub MaskConvertToDec {
     my	( $mask )	= @_;
 
     my $_bit = (2 ** (32 - $mask) - 1);
@@ -177,24 +157,70 @@ sub maskConvertToDec {
     return $netMask;
 } ## --- end sub maskConvertToDec
 
-sub ipConvertToBin {
+sub SameSubnet {
+    my	( $subnet1,$subnet2 )	= @_;
+
+    my @subnet1 = split //,$subnet1;
+    my @subnet2 = split //,$subnet2;
+    for ( my $i = 0; $i <= $#subnet1; $i++ ) {
+
+        unless ( $subnet1[$i] == $subnet2[$i] ){
+            return 0;
+        }
+    }
+    return 1;
+} ## --- end sub SameSubnet
+
+sub DecConvertToBin {
+    my	( $dec )	= @_;
+
+    return unpack("B32",pack("N",$dec));
+} ## --- end sub decConvertToBin
+
+sub IpConvertToBin {
     my	( $ip )	= @_;
 
     return join ("",map { substr( unpack("B32",pack("N",$_)),-8)}split(/\./,$ip));
 
 } ## --- end sub ipConvertToBin
 
-sub dijkstra {
+sub Deep {
+    my	( $graph,$path,$v,$stopV,$routes )	= @_;
+
+#    $DB::single = 2;
+
+    my @path = @$path;
+    push @path,$v;
+    my %path = ();
+
+    if ( $v == $stopV ){
+
+        push @$routes,\@path;
+        return;
+    }
+
+    grep{ $path{$_} = 1 }@path;
+
+    foreach my $w ( keys %{ $graph->{$v} } ) {
+
+        next if ( exists $path{ $w } );
+        Deep( $graph,\@path,$w,$stopV,$routes );
+    }
+    return ;
+} ## --- end sub Deep
+
+
+sub GetMinRouteSize {
     my	( $graph,$startP,$stopP )	= @_;
-    #$DB::single = 2;
-    #place for store vertexes in multiways
-    my %used = ();
-    my $routes = [];
-    my $existRoute = 1;
+    
+    my $minRouteSize = Dijkstra( $graph, $startP,$stopP );
+    return $minRouteSize;
+} ## --- end sub GetMinRoutes
 
-    while( $existRoute ){
-
-        #Initialization before next route search
+sub Dijkstra {
+    my	( $graph,$startP,$stopP )	= @_;
+    
+        #Initialization
         my %visited = ();
         my %parent = ();
         my %distances = ();
@@ -220,44 +246,22 @@ sub dijkstra {
 
             foreach my $v ( keys %distances ) {
 
-                if ( (!defined $visited{$v}) && (!defined $used{$v}) && (!defined $distance || $distance > $distances{$v}) ){
+                if ( !exists $visited{$v} && ( (exists $distances{$v} && !defined $distance) || (exists $distances{$v} && $distance > $distances{$v}) ) ){
 
                     $distance = $distances{$v};
                     $w = $v;
                 }
             }
         }
+        my $current = $stopP;
+        my $path = [];
+        push @$path,$stopP;
 
-        my $route = [];
-        my $p = $stopP;
-        push @$route,$p;
-
-        while( defined $parent{$p} && $p != $startP ){
-
-            $p = $parent{$p};
-            unshift @$route,$p;
+        while ( defined $parent{$current} ){
+            push @$path, $parent{$current};
+            $current = $parent{$current};
         }
-        if ( $startP != $route->[0] ){
-
-            $existRoute = 0;
-
-        }else{
-
-            push @$routes,$route;
-            for ( my $i = 1; $i < $#{$route}; $i++ ) {
-
-                $used{$route->[$i]}++;
-            }
-        }
-    }
-    return [] if (scalar @$routes == 0);
-    my @sortedRoutes = sort { scalar @$a <=> scalar @$b } @$routes;
-
-    my $routeSize = scalar @{$sortedRoutes[0]};
-
-    my @resRoutes = grep { scalar @$_ <= $routeSize } @sortedRoutes;
-
-    return \@resRoutes;
+        return scalar @$path;
 } ## --- end sub dijkstra
 
 
